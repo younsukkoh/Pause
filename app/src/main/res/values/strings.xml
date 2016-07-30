@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Pause</string>
+
+    <!-- Signing In && Creating User -->
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="reenter_email">Re-enter your email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="reenter_password">Re-enter password</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="continueOn">Continue</string>
+    <string name="signUp">SIGN UP</string>
+    <string name="send_email">Send Confirmation Email</string>
+    <string name="resend_email">Re-send</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="loading">Loading...</string>
+    <string name="authenticating">Authenticating...</string>
+    <string name="signIn_cancelled_check_internet">"The sign in was cancelled. Make sure you're connected to the internet and try again."</string>
+    <string name="creating_account">Attempting to create a new account...</string>
+    <string name="when_were_you_born">When were you born?</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="signUp_successful">Your account was successfully created!</string>
+    <string name="signUp_fail">Error occured while creating your account. Please try again.</string>
+    <string name="email_match_error">Emails you entered do not match</string>
+    <string name="empty_error">This field cannot be empty</string>
+    <string name="password_match_error">Password you entered do not match</string>
+    <string name="email_taken_error">This email is already taken.</string>
+    <string name="email_invalid_error">This is not a valid email.</string>
+    <string name="password_length_error">Password must be at least 6 characters long.</string>
+    <string name="confirmation_code">Confirmation Code: </string>
+    <string name="confirmation_code_hint">Enter the code</string>
+    <string name="confirm_create_account">Confirm and Create Account</string>
+    <string name="confirm_error">Check the code again</string>
+    <string name="login_error">Error occurred while logging in</string>
+</resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorAccent"
+    android:padding="14dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/logo_brown"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/caa01_et_firstName"
+            style="@style/EditText_login"
+            android:layout_weight="1"
+            android:hint="@string/first_name"
+            android:inputType="textCapWords"
+            android:nextFocusDown="@+id/caa01_et_lastName" />
+        <EditText
+            android:id="@+id/caa01_et_lastName"
+            style="@style/EditText_login"
+            android:layout_weight="1"
+            android:hint="@string/last_name"
+            android:inputType="textCapWords"
+            android:nextFocusDown="@+id/caa01_et_password"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/caa01_et_password"
+        style="@style/EditText_login"
+        android:hint="@string/enter_password"
+        android:inputType="textPassword"
+        android:nextFocusDown="@+id/caa01_et_password_confirm"/>
+
+    <EditText
+        android:id="@+id/caa01_et_password_confirm"
+        style="@style/EditText_login"
+        android:hint="@string/reenter_password"
+        android:inputType="textPassword"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/caa01_b_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:textSize="@dimen/layout_textSize"
+            android:textColor="@color/white"
+            android:text="@string/when_were_you_born"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+                android:textSize="@dimen/layout_textSize"
+                android:textColor="@color/colorPrimaryDark" />
+            <CheckBox
+                android:id="@+id/caa01_cb_male"
+                android:background="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                android:textSize="@dimen/layout_textSize"
+                android:textColor="@color/colorPrimaryDark" />
+            <CheckBox
+                android:id="@+id/caa01_cb_female"
+                android:background="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/caa01_b_continue"
+        style="@style/Button_login"
+        android:text="@string/continueOn"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:text="@string/already_have_account"
+            android:textSize="14dp"
+            android:textColor="@color/colorPrimaryDark"/>
+        <TextView
+            android:id="@+id/caa01_tv_signIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in"
+            android:textSize="14dp"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+</LinearLayout>
