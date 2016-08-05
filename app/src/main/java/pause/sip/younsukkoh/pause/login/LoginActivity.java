@@ -14,10 +14,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import pause.sip.younsukkoh.pause.BaseActivity;
-import pause.sip.younsukkoh.pause.MainActivity;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
@@ -29,8 +27,6 @@ public class LoginActivity extends BaseActivity{
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
-    private FirebaseAuth mAuth;
-
     private EditText mEmailInput, mPasswordInput;
     private Button mSignIn;
     private TextView mSignUp;
@@ -40,13 +36,15 @@ public class LoginActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.login_activity);
-        setUpUI();
-        setUpProgressDialog();
+        setupUI();
+        setupProgressDialog();
     }
 
-    private void setUpUI() {
+    /**
+     * Set up user interface
+     */
+    private void setupUI() {
         mEmailInput = (EditText) findViewById(R.id.la_et_email);
         mPasswordInput = (EditText) findViewById(R.id.la_et_password);
 
@@ -91,16 +89,16 @@ public class LoginActivity extends BaseActivity{
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Log.i(TAG, "signInWithEmailAndPassword Success: " + authResult.toString());
-
+                        mProgressDialog.dismiss();
                         mSharedPreferencesEditor.putString(Constants.SP_ENCODED_USER_EMAIL, Utility.encodeEmail(email));
-
-                        goToMainActivity();
+                        goToMainActivity(LoginActivity.this);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "signInWithEmailAndPassword Fail: " + e.getMessage());
+                        mProgressDialog.dismiss();
                         Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -109,17 +107,18 @@ public class LoginActivity extends BaseActivity{
     /**
      * Set up progress dialog for log in
      */
-    private void setUpProgressDialog() {
+    private void setupProgressDialog() {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle(R.string.loading);
         mProgressDialog.setMessage(getString(R.string.authenticating));
         mProgressDialog.setCancelable(false);
     }
 
-    private void goToMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+    @Override
+    public void onStart() {
+        super.onStart();
+        //If user has logged in before thereby saving his/her email in SP, take the user to the main activity
+        Log.i(TAG, "onStart " + mUserEncodedEmail);
+        if (mUserEncodedEmail != null) goToMainActivity(getApplicationContext());
     }
 }

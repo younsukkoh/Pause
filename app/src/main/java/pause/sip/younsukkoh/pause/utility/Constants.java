@@ -22,4 +22,7 @@ public final class Constants {
     //Intent Extras
     public static final String EXTRA_USER_INFORMATION = "extra_user_information";
     public static final String EXTRA_USER_BIRTHDAY = "extra_user_birthday";
+
+    //Bundle Argument Extras
+    public static final String ARG_ENCODED_EMAIL = "arg_encoded_email";
 }

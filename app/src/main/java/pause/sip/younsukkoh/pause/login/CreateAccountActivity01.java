@@ -37,13 +37,13 @@ public class CreateAccountActivity01 extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account_activity_01);
-        setUpUI();
+        setupUI();
     }
 
     /**
      * Set up user interface
      */
-    private void setUpUI() {
+    private void setupUI() {
         mFirstNameInput = (EditText) findViewById(R.id.caa01_et_firstName);
 
         mLastNameInput = (EditText) findViewById(R.id.caa01_et_lastName);
@@ -63,7 +63,7 @@ public class CreateAccountActivity01 extends BaseActivity {
         mContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setUpUserSignUp();
+                setupUserSignUp();
             }
         });
 
@@ -79,7 +79,7 @@ public class CreateAccountActivity01 extends BaseActivity {
     /**
      * Get user information from input and take the user to email confirmation page if everything checks out
      */
-    private void setUpUserSignUp() {
+    private void setupUserSignUp() {
         mFirstName = mFirstNameInput.getText().toString();
         mLastName = mLastNameInput.getText().toString();
         mPassword = mPasswordInput.getText().toString();
@@ -90,7 +90,7 @@ public class CreateAccountActivity01 extends BaseActivity {
         boolean genderChecked = isGenderChecked();
 
         if (!userNameValid || !passwordValid || !birthdayValid || !genderChecked) {
-            Log.i(TAG, "setUpUserSignUp: " + userNameValid + " " + passwordValid + " " + birthdayValid + " " + genderChecked + " Fail");
+            Log.i(TAG, "setupUserSignUp: " + userNameValid + " " + passwordValid + " " + birthdayValid + " " + genderChecked + " Fail");
             return;
         }
         else goToCreateAccountActivity02();

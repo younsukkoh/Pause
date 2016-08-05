@@ -6,7 +6,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -18,11 +21,13 @@ import pause.sip.younsukkoh.pause.utility.Constants;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    //TODO save the user email in DB
-    public String mUserEncodedEmail;
-    public DatabaseReference mDatabase;
-    public SharedPreferences mSharedPreferences;
-    public SharedPreferences.Editor mSharedPreferencesEditor;
+    private static final String TAG = BaseActivity.class.getSimpleName();
+
+    protected String mUserEncodedEmail;
+    protected DatabaseReference mDatabase; //Database reference
+    protected SharedPreferences mSharedPreferences; //Used for saving essential information such as user email
+    protected SharedPreferences.Editor mSharedPreferencesEditor;
+    protected FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class BaseActivity extends AppCompatActivity {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mSharedPreferencesEditor = mSharedPreferences.edit();
+
+        mAuth = FirebaseAuth.getInstance(); //Used in CAA02 for creating account. Used in LA for log in.
     }
 
     @Override
@@ -40,15 +47,28 @@ public class BaseActivity extends AppCompatActivity {
         mUserEncodedEmail = mSharedPreferences.getString(Constants.SP_ENCODED_USER_EMAIL, null);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
     /**
      * Move to login activity
      */
-    public void goToLoginActivity(Context context) {
+    protected void goToLoginActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
 
-
+    /**
+     * Go to main activity
+     */
+    protected void goToMainActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }

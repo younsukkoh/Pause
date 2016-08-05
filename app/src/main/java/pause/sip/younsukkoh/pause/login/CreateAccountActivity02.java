@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.Random;
@@ -33,8 +32,6 @@ import pause.sip.younsukkoh.pause.utility.Utility;
 public class CreateAccountActivity02 extends BaseActivity {
 
     private static String TAG = CreateAccountActivity02.class.getSimpleName();
-
-    private FirebaseAuth mAuth;
 
     private ProgressDialog mAuthProgressDialog;
 
@@ -66,15 +63,14 @@ public class CreateAccountActivity02 extends BaseActivity {
         mGender = userInformation[3];
         mBirthday = userBirthday;
 
-        setUpUI();
-        setUpProgressDialog();
-        setUpFirebaseAuth();
+        setupUI();
+        setupProgressDialog();
     }
 
     /**
      * Set up user interface
      */
-    private void setUpUI() {
+    private void setupUI() {
         mEmailInput = (EditText) findViewById(R.id.caa02_et_email);
         mEmailInputConfirm = (EditText) findViewById(R.id.caa02_et_email_confirm);
 
@@ -97,7 +93,7 @@ public class CreateAccountActivity02 extends BaseActivity {
 
                     mConfirmationCodeInput.setText(mConfirmationCode);
 
-                    setUpUIAfterEmail();
+                    setupUIAfterEmail();
                 }
                 else
                     mConfirmationCodeInput.setError(getString(R.string.confirm_error));
@@ -161,9 +157,10 @@ public class CreateAccountActivity02 extends BaseActivity {
      */
     private void createUserInFirebaseDatabase() {
         String encodedUserEmail = Utility.encodeEmail(mEmail);
+        User user = new User(mEmail, mFirstName, mLastName, mGender, mBirthday);
 
         DatabaseReference userRef = mDatabase.child(Constants.USERS).child(encodedUserEmail);
-        userRef.setValue(new User(mEmail, mPassword, mFirstName, mLastName, mGender, mBirthday));
+        userRef.setValue(user);
     }
 
 
@@ -206,7 +203,7 @@ public class CreateAccountActivity02 extends BaseActivity {
     /**
      * Change the user interface after sending confirmation email //TODO
      */
-    private void setUpUIAfterEmail() {
+    private void setupUIAfterEmail() {
         mSendConfirmationEmail.setText(getString(R.string.resend_email));
         mConfirmationCodeText.setEnabled(true);
         mConfirmationCodeText.setTextColor(getResources().getColor(R.color.black));
@@ -218,17 +215,10 @@ public class CreateAccountActivity02 extends BaseActivity {
     /**
      * Set up progress dialog
      */
-    private void setUpProgressDialog() {
+    private void setupProgressDialog() {
         mAuthProgressDialog = new ProgressDialog(this);
         mAuthProgressDialog.setTitle(getString(R.string.loading));
         mAuthProgressDialog.setMessage(getString(R.string.creating_account));
         mAuthProgressDialog.setCancelable(false);
-    }
-
-    /**
-     * Set up Firebase auth for signing up new users
-     */
-    private void setUpFirebaseAuth() {
-        mAuth = FirebaseAuth.getInstance();
     }
 }

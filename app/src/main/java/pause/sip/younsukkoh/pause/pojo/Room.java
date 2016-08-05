@@ -1,0 +1,56 @@
+package pause.sip.younsukkoh.pause.pojo;
+
+import java.util.HashMap;
+
+/**
+ * Created by Younsuk on 8/5/2016.
+ */
+public class Room {
+
+    String name;
+    long created;
+    long updated;
+    HashMap<Integer, String> members;
+
+    public Room() {
+    }
+
+    public Room(String name, long created, long updated, HashMap<Integer, String> members) {
+        this.name = name;
+        this.created = created;
+        this.updated = updated;
+        this.members = members;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getCreated() {
+        return created;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
+    public long getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(long updated) {
+        this.updated = updated;
+    }
+
+    public HashMap<Integer, String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(HashMap<Integer, String> members) {
+        this.members = members;
+    }
+}
