@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:background="@color/colorAccent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Memory"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mmf_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mmf_fab_main"
+        app:fabSize="normal"
+        style="@style/FloatingActionButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/add_white"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mmf_fab_camera"
+        style="@style/FloatingActionButton"
+        android:layout_above="@id/mmf_fab_main"
+        android:src="@drawable/camera_white"
+        android:visibility="invisible"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mmf_fab_recorder"
+        style="@style/FloatingActionButton"
+        android:layout_above="@id/mmf_fab_camera"
+        android:src="@drawable/recorder_white"
+        android:visibility="invisible"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mmf_fab_pencil"
+        style="@style/FloatingActionButton"
+        android:layout_above="@id/mmf_fab_recorder"
+        android:src="@drawable/pencil_white"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

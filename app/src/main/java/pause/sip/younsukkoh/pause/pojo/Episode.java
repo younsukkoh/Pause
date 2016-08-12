@@ -7,13 +7,18 @@ import java.util.HashMap;
  */
 public class Episode {
 
-    String downloadUrl;
-    long timeAdded;
-    String description;
+    //who
     HashMap<Integer, String> tags;
+    //what
+    String downloadUrl;
+    //when
+    long timeAdded;
+    //where
+    String location;
     long longitude;
     long latitude;
-    String location;
+    //why
+    String description;
 
     public Episode() {
     }

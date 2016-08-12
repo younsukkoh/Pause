@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     protected String mUserEncodedEmail;
-    protected DatabaseReference mDatabase; //Database reference
+    protected DatabaseReference mDatabaseReference; //Database reference
     protected SharedPreferences mSharedPreferences; //Used for saving essential information such as user email
     protected SharedPreferences.Editor mSharedPreferencesEditor;
     protected FirebaseAuth mAuth;
@@ -33,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mSharedPreferencesEditor = mSharedPreferences.edit();

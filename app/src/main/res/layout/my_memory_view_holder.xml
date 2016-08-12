@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="4dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/mmvh_tv_what_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What Title"/>
+        <TextView
+            android:id="@+id/mmvh_tv_who_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Who People"/>
+        <TextView
+            android:id="@+id/mmvh_tv_when_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="When Time"/>
+        <TextView
+            android:id="@+id/mmvh_tv_where_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Where Location"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/mmvh_ll_images"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/mmvh_tv_why_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is a why. This is a description. This could be really long."/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+

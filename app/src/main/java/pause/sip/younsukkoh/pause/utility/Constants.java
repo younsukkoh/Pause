@@ -16,6 +16,9 @@ public final class Constants {
     //Firebase POJOS
     public static final String USERS = "users";
 
+    //Firebase Reference Points
+    public static final String MY_ROOM = "my-room-";
+
     //Shared Preference
     public static final String SP_ENCODED_USER_EMAIL = "sp_encoded_user_email";
 

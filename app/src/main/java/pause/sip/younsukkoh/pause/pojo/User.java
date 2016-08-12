@@ -5,6 +5,7 @@ package pause.sip.younsukkoh.pause.pojo;
  */
 public class User {
 
+    //who
     String email;
     String firstName;
     String lastName;

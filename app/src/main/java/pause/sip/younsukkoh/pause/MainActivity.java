@@ -5,19 +5,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.widget.Button;
-
-import com.google.firebase.database.DatabaseReference;
-
-import java.util.HashMap;
 
 import pause.sip.younsukkoh.pause.my_memory.MyMemoryFragment;
 import pause.sip.younsukkoh.pause.our_memories.OurMemoriesFragment;
-import pause.sip.younsukkoh.pause.pojo.TesterPojo;
 import pause.sip.younsukkoh.pause.settings.SettingsFragment;
+import pause.sip.younsukkoh.pause.users.UsersFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -67,7 +61,7 @@ public class MainActivity extends BaseActivity {
                 case 1:
                     return OurMemoriesFragment.newInstance(mUserEncodedEmail);
                 case 2:
-                    return SettingsFragment.newInstance(mUserEncodedEmail);
+                    return UsersFragment.newInstance(mUserEncodedEmail);
                 default:
                     return MyMemoryFragment.newInstance(mUserEncodedEmail);
             }

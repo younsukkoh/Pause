@@ -7,49 +7,86 @@ import java.util.HashMap;
  */
 public class Memory {
 
-    HashMap<Integer, String> episodes;
-    String description;
-    HashMap<Integer, String> tags;
+    String memoryId;
+    //who
+//    HashMap people;
+//    int numberOfPeople;
+    //what
+    String title;
+//    HashMap episodes;
+//    int numberOfEpisodes;
+    //when
     long timeCreated;
+    //where
+    String location;
     long longitude;
     long latitude;
-    String location;
+    //why
+    String description;
 
     public Memory() {
     }
 
-    public Memory(HashMap<Integer, String> episodes, String description, HashMap<Integer, String> tags, long timeCreated, long longitude, long latitude, String location) {
-        this.episodes = episodes;
-        this.description = description;
-        this.tags = tags;
+    public Memory(String memoryId, String title, long timeCreated, String location, long longitude, long latitude, String description) {
+        this.memoryId = memoryId;
+//        this.people = people;
+//        this.numberOfPeople = numberOfPeople;
+//        this.episodes = episodes;
+//        this.numberOfEpisodes = numberOfEpisodes;
+        this.title = title;
         this.timeCreated = timeCreated;
+        this.location = location;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.location = location;
-    }
-
-    public HashMap<Integer, String> getEpisodes() {
-        return episodes;
-    }
-
-    public void setEpisodes(HashMap<Integer, String> episodes) {
-        this.episodes = episodes;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
 
-    public HashMap<Integer, String> getTags() {
-        return tags;
+    public String getMemoryId() {
+        return memoryId;
     }
 
-    public void setTags(HashMap<Integer, String> tags) {
-        this.tags = tags;
+    public void setMemoryId(String memoryId) {
+        this.memoryId = memoryId;
+    }
+
+//    public HashMap<String, String> getPeople() {
+//        return people;
+//    }
+//
+//    public void setPeople(HashMap<String, String> people) {
+//        this.people = people;
+//    }
+//
+//    public int getNumberOfPeople() {
+//        return numberOfPeople;
+//    }
+//
+//    public void setNumberOfPeople(int numberOfPeople) {
+//        this.numberOfPeople = numberOfPeople;
+//    }
+//
+//    public HashMap<String, String> getEpisodes() {
+//        return episodes;
+//    }
+//
+//    public void setEpisodes(HashMap<String, String> episodes) {
+//        this.episodes = episodes;
+//    }
+//
+//    public int getNumberOfEpisodes() {
+//        return numberOfEpisodes;
+//    }
+//
+//    public void setNumberOfEpisodes(int numberOfEpisodes) {
+//        this.numberOfEpisodes = numberOfEpisodes;
+//    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public long getTimeCreated() {
@@ -58,6 +95,14 @@ public class Memory {
 
     public void setTimeCreated(long timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public long getLongitude() {
@@ -76,11 +121,11 @@ public class Memory {
         this.latitude = latitude;
     }
 
-    public String getLocation() {
-        return location;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

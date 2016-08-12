@@ -7,10 +7,17 @@ import java.util.HashMap;
  */
 public class Room {
 
+    //who
+    HashMap<Integer, String> members;
+    //what
     String name;
+    //when
     long created;
     long updated;
-    HashMap<Integer, String> members;
+    //where
+    // N.A.
+    //why
+    // N.A.
 
     public Room() {
     }
