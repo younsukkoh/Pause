@@ -12,12 +12,4 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
-    <Button
-        android:id="@+id/uf_b_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="YOLO SWAG"/>
-
 </RelativeLayout>

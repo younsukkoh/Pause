@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import pause.sip.younsukkoh.pause.my_memory.MyMemoryFragment;
 import pause.sip.younsukkoh.pause.our_memories.OurMemoriesFragment;
 import pause.sip.younsukkoh.pause.settings.SettingsFragment;
@@ -16,8 +18,6 @@ import pause.sip.younsukkoh.pause.users.UsersFragment;
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    private Button mTester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +32,14 @@ public class MainActivity extends BaseActivity {
     private void setUpUI() {
         SectionPagerAdapter pagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         ViewPager viewPager = (ViewPager) findViewById(R.id.ma_vp);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.ma_tl);
         tabLayout.setupWithViewPager(viewPager);
 
         //Set tabs with appropriate icons
-        final int[] TAB_ICONS = new int[] { R.drawable.my_memory_brown, R.drawable.our_memories_brown, R.drawable.settings_brown };
+        final int[] TAB_ICONS = new int[] { R.drawable.my_memory_brown, R.drawable.our_memories_brown, R.drawable.friends_brown, R.drawable.settings_brown };
         for (int i = 0; i < TAB_ICONS.length; i ++) tabLayout.getTabAt(i).setIcon(TAB_ICONS[i]);
     }
 
@@ -62,6 +62,8 @@ public class MainActivity extends BaseActivity {
                     return OurMemoriesFragment.newInstance(mUserEncodedEmail);
                 case 2:
                     return UsersFragment.newInstance(mUserEncodedEmail);
+                case 3:
+                    return SettingsFragment.newInstance(mUserEncodedEmail);
                 default:
                     return MyMemoryFragment.newInstance(mUserEncodedEmail);
             }
@@ -70,7 +72,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
@@ -82,10 +84,14 @@ public class MainActivity extends BaseActivity {
                 case 1:
                     return "Ours";
                 case 2:
+                    return "Friends";
+                case 3:
                     return "Settings";
                 default:
                     return "Mine";
             }
         }
+
+
     }
 }

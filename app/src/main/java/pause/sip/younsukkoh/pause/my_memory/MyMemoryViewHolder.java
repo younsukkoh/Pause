@@ -1,23 +1,14 @@
 package pause.sip.younsukkoh.pause.my_memory;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Memory;
-import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
 
 /**
@@ -63,8 +54,6 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
      * @param userEncodedEmail
      */
     public void bindMemory(Memory memory, String userEncodedEmail) {
-        Log.i(Constants.TAG_DEBUG, "bindMemory " + memory.getTitle() + " ");
-
         mMemory = memory;
         mUserEncodedEmail = userEncodedEmail;
 
@@ -81,7 +70,7 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
 
         mTimeTextView.setText(Utility.DATE_FORMAT.format(new Date(memory.getTimeCreated())));
 
-        mLocationTextView.setText(memory.getLocation());
+        mLocationTextView.setText(memory.getAddress());
 
 //        HashMap<String, String> episodes = memory.getEpisodes();
 //        for (int i = 0; i < memory.getNumberOfEpisodes(); i ++) {

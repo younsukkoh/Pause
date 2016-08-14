@@ -22,8 +22,6 @@ public class MyMemoryAdapter extends FirebaseRecyclerAdapter<Memory, MyMemoryVie
     public MyMemoryAdapter(Class<Memory> modelClass, int modelLayout, Class<MyMemoryViewHolder> viewHolderClass, DatabaseReference ref, String userEncodedEmail) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         mUserEncodedEmail = userEncodedEmail;
-
-        Log.i(Constants.TAG_DEBUG, "MyMemoryAdapter constructor");
     }
 
     public MyMemoryAdapter(Class<Memory> modelClass, int modelLayout, Class<MyMemoryViewHolder> viewHolderClass, Query ref, String userEncodedEmail) {
@@ -33,7 +31,6 @@ public class MyMemoryAdapter extends FirebaseRecyclerAdapter<Memory, MyMemoryVie
 
     @Override
     protected void populateViewHolder(MyMemoryViewHolder viewHolder, Memory memory, int position) {
-        Log.i(Constants.TAG_DEBUG, "populateViewHolder " + mUserEncodedEmail + " " + memory.getTitle());
         viewHolder.bindMemory(memory, mUserEncodedEmail);
     }
 }

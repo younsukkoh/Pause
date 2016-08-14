@@ -23,7 +23,6 @@ import pause.sip.younsukkoh.pause.utility.Constants;
 public class UsersFragment extends Fragment {
 
     private String mUserEncodedEmail;
-    private Button mAdd;
     private RecyclerView mRecyclerView;
     private UsersAdapter mUsersAdapter;
 
@@ -69,12 +68,6 @@ public class UsersFragment extends Fragment {
     }
 
     private void setUpUI(View view) {
-        mAdd = (Button) view.findViewById(R.id.uf_b_add);
-        mAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
     }
 }

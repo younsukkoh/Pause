@@ -9,16 +9,16 @@ public class Memory {
 
     String memoryId;
     //who
-//    HashMap people;
-//    int numberOfPeople;
+    HashMap<String, String> people;
+    int numberOfPeople;
     //what
     String title;
-//    HashMap episodes;
-//    int numberOfEpisodes;
+    HashMap<String, String> episodes;
+    int numberOfEpisodes;
     //when
     long timeCreated;
     //where
-    String location;
+    String address;
     long longitude;
     long latitude;
     //why
@@ -27,18 +27,16 @@ public class Memory {
     public Memory() {
     }
 
-    public Memory(String memoryId, String title, long timeCreated, String location, long longitude, long latitude, String description) {
+    public Memory(String memoryId, HashMap<String, String> people, int numberOfPeople, HashMap<String, String> episodes, int numberOfEpisodes, long timeCreated, String address, long longitude, long latitude) {
         this.memoryId = memoryId;
-//        this.people = people;
-//        this.numberOfPeople = numberOfPeople;
-//        this.episodes = episodes;
-//        this.numberOfEpisodes = numberOfEpisodes;
-        this.title = title;
+        this.people = people;
+        this.numberOfPeople = numberOfPeople;
+        this.episodes = episodes;
+        this.numberOfEpisodes = numberOfEpisodes;
         this.timeCreated = timeCreated;
-        this.location = location;
+        this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.description = description;
     }
 
     public String getMemoryId() {
@@ -49,37 +47,37 @@ public class Memory {
         this.memoryId = memoryId;
     }
 
-//    public HashMap<String, String> getPeople() {
-//        return people;
-//    }
-//
-//    public void setPeople(HashMap<String, String> people) {
-//        this.people = people;
-//    }
-//
-//    public int getNumberOfPeople() {
-//        return numberOfPeople;
-//    }
-//
-//    public void setNumberOfPeople(int numberOfPeople) {
-//        this.numberOfPeople = numberOfPeople;
-//    }
-//
-//    public HashMap<String, String> getEpisodes() {
-//        return episodes;
-//    }
-//
-//    public void setEpisodes(HashMap<String, String> episodes) {
-//        this.episodes = episodes;
-//    }
-//
-//    public int getNumberOfEpisodes() {
-//        return numberOfEpisodes;
-//    }
-//
-//    public void setNumberOfEpisodes(int numberOfEpisodes) {
-//        this.numberOfEpisodes = numberOfEpisodes;
-//    }
+    public HashMap<String, String> getPeople() {
+        return people;
+    }
+
+    public void setPeople(HashMap<String, String> people) {
+        this.people = people;
+    }
+
+    public int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
+    public HashMap<String, String> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(HashMap<String, String> episodes) {
+        this.episodes = episodes;
+    }
+
+    public int getNumberOfEpisodes() {
+        return numberOfEpisodes;
+    }
+
+    public void setNumberOfEpisodes(int numberOfEpisodes) {
+        this.numberOfEpisodes = numberOfEpisodes;
+    }
 
     public String getTitle() {
         return title;
@@ -97,12 +95,12 @@ public class Memory {
         this.timeCreated = timeCreated;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public long getLongitude() {

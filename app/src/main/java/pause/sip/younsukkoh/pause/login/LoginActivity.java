@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity{
                     public void onSuccess(AuthResult authResult) {
                         Log.i(TAG, "signInWithEmailAndPassword Success: " + authResult.toString());
                         mProgressDialog.dismiss();
-                        mSharedPreferencesEditor.putString(Constants.SP_ENCODED_USER_EMAIL, Utility.encodeEmail(email));
+                        mSharedPreferencesEditor.putString(Constants.SP_ENCODED_USER_EMAIL, Utility.encodeEmail(email)).apply();
                         goToMainActivity(LoginActivity.this);
                     }
                 })
