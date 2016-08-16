@@ -15,13 +15,14 @@ public final class Constants {
     public static final String FIREBASE_STORAGE_URL = "gs://pause-95ab1.appspot.com";
 
     //Firebase Database Reference Points
-    public static final String USERS_INFO = "users-information-";
-    public static final String USERS_ROOM = "users-room-";
-    public static final String USERS_FRIENDS = "users-friends-";
+    public static final String USERS_INFO = "users_information_";
+    public static final String USERS_ROOM = "users_room_";
+    public static final String USERS_FRIENDS = "users_friends_";
     public static final String MY_ROOM = "my_room_";
-    public static final String OUR_ROOM_INFO = "our-room-information-";
-    public static final String OUR_ROOM_MEMORIES = "our-room-memories-";
+    public static final String OUR_ROOM_INFO = "our_room_information_";
+    public static final String OUR_ROOM_MEMORIES = "our_room_memories_";
     public static final String LIST = "list";
+
     //Firebase Storage Reference Points
     public static final String IMAGES = "images/";
 

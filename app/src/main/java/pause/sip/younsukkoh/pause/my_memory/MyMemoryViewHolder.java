@@ -1,7 +1,14 @@
 package pause.sip.younsukkoh.pause.my_memory;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +46,7 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
     //UI Layout
     private TextView mTitleTextView, mPeopleTextView, mTimeTextView, mLocationTextView, mDescriptionTextView;
     private LinearLayout mEpisodesLayout;
+    private ImageButton mAddButton, mEditButton;
 
     public MyMemoryViewHolder(View itemView) {
         super(itemView);
@@ -53,6 +61,22 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
         mLocationTextView = (TextView) itemView.findViewById(R.id.mmvh_tv_where_location);
         mDescriptionTextView = (TextView) itemView.findViewById(R.id.mmvh_tv_why_description);
         mEpisodesLayout = (LinearLayout) itemView.findViewById(R.id.mmvh_ll_images);
+
+        mAddButton = (ImageButton) itemView.findViewById(R.id.mmvh_b_add);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mEditButton = (ImageButton) itemView.findViewById(R.id.mmvh_b_edit);
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     /**
@@ -93,4 +117,6 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
     public boolean onLongClick(View view) {
         return false;
     }
+
+
 }

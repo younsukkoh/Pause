@@ -35,7 +35,12 @@
         android:id="@+id/mmf_fab_pencil"
         style="@style/FloatingActionButton"
         android:layout_above="@id/mmf_fab_recorder"
-        android:src="@drawable/pencil_white"
+        android:src="@drawable/document_brown"
         android:visibility="invisible"/>
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mmf_fab_images"
+        style="@style/FloatingActionButton"
+        android:layout_above="@id/mmf_fab_pencil"
+        android:src="@drawable/image_brown"
+        android:visibility="invisible"/>
 </RelativeLayout>

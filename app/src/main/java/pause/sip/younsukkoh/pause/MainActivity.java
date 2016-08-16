@@ -14,6 +14,7 @@ import pause.sip.younsukkoh.pause.my_memory.MyMemoryFragment;
 import pause.sip.younsukkoh.pause.our_memories.OurMemoriesFragment;
 import pause.sip.younsukkoh.pause.settings.SettingsFragment;
 import pause.sip.younsukkoh.pause.users.UsersFragment;
+import pause.sip.younsukkoh.pause.utility.Constants;
 
 public class MainActivity extends BaseActivity {
 
