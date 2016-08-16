@@ -11,15 +11,19 @@ public final class Constants {
     public static final String TAG_DEBUG = "YOLO";
 
     //Firebase URL
-    public static final String FB_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
+    public static final String FIREBASE_ROOT_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
+    public static final String FIREBASE_STORAGE_URL = "gs://pause-95ab1.appspot.com";
 
-    //Firebase Reference Points
+    //Firebase Database Reference Points
     public static final String USERS_INFO = "users-information-";
     public static final String USERS_ROOM = "users-room-";
     public static final String USERS_FRIENDS = "users-friends-";
-    public static final String MY_ROOM = "my-room-";
+    public static final String MY_ROOM = "my_room_";
     public static final String OUR_ROOM_INFO = "our-room-information-";
     public static final String OUR_ROOM_MEMORIES = "our-room-memories-";
+    public static final String LIST = "list";
+    //Firebase Storage Reference Points
+    public static final String IMAGES = "images/";
 
     //Shared Preference
     public static final String SP_ENCODED_USER_EMAIL = "sp_encoded_user_email";
@@ -37,7 +41,8 @@ public final class Constants {
     public static final int REQUEST_CAMERA = 1;
     public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     public static final int REQUEST_CONNECTION_FAILURE_SOLUTION = 3;
+    public static final int REQUEST_IMAGE_CAPTURE = 4;
 
     //Miscellaneous
-    public static final String SEPARATOR = "-";
+    public static final String UNDERSCORE = "_";
 }

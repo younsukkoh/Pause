@@ -15,19 +15,17 @@ public class Episode {
     long timeAdded;
     //where
     String location;
-    long longitude;
-    long latitude;
+    double longitude;
+    double latitude;
     //why
     String description;
 
     public Episode() {
     }
 
-    public Episode(String downloadUrl, long timeAdded, String description, HashMap<Integer, String> tags, long longitude, long latitude, String location) {
+    public Episode(String downloadUrl, long timeAdded,String location, double longitude, double latitude) {
         this.downloadUrl = downloadUrl;
         this.timeAdded = timeAdded;
-        this.description = description;
-        this.tags = tags;
         this.longitude = longitude;
         this.latitude = latitude;
         this.location = location;
@@ -65,7 +63,7 @@ public class Episode {
         this.tags = tags;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -73,7 +71,7 @@ public class Episode {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 

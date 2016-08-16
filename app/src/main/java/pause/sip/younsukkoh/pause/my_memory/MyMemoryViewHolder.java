@@ -2,13 +2,19 @@ package pause.sip.younsukkoh.pause.my_memory;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Memory;
+import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
 
 /**
@@ -46,6 +52,7 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
         mTimeTextView = (TextView) itemView.findViewById(R.id.mmvh_tv_when_time);
         mLocationTextView = (TextView) itemView.findViewById(R.id.mmvh_tv_where_location);
         mDescriptionTextView = (TextView) itemView.findViewById(R.id.mmvh_tv_why_description);
+        mEpisodesLayout = (LinearLayout) itemView.findViewById(R.id.mmvh_ll_images);
     }
 
     /**
@@ -57,32 +64,24 @@ public class MyMemoryViewHolder extends RecyclerView.ViewHolder implements View.
         mMemory = memory;
         mUserEncodedEmail = userEncodedEmail;
 
-        mTitleTextView.setText(memory.getTitle());
-
-//        String listOfPeople = "";
-//        HashMap<String, String> people = memory.getPeople();
-//        for (int i = 0; i < memory.getNumberOfPeople(); i ++) {
-//            String index = i + "";
-//            listOfPeople = listOfPeople + people.get(index) + ", ";
-//        }
-
-        mPeopleTextView.setText("YOLO SWAG");
+        String title = memory.getTitle();
+        if (title == null) mTitleTextView.setText(R.string.no_title);
+        else mTitleTextView.setText(title);
 
         mTimeTextView.setText(Utility.DATE_FORMAT.format(new Date(memory.getTimeCreated())));
 
-        mLocationTextView.setText(memory.getAddress());
+        mLocationTextView.setText(memory.getLocation());
 
-//        HashMap<String, String> episodes = memory.getEpisodes();
-//        for (int i = 0; i < memory.getNumberOfEpisodes(); i ++) {
-//            String index = i + "";
-//
-//            ImageView imageView = new ImageView(mItemView.getContext());
-//            Picasso.with(mItemView.getContext()).load(episodes.get(index)).resize(500, 500).into(imageView);
-//
-//            mEpisodesLayout.addView(imageView);
-//        }
+        for (int i = 0; i < memory.getNumberOfEpisodes(); i ++) {
+            ImageView imageView = new ImageView(mItemView.getContext());
+            ArrayList<String> episodes = (ArrayList<String>) memory.getEpisodes().get(Constants.LIST);
+            Picasso.with(mItemView.getContext()).load(episodes.get(i)).resize(500, 500).into(imageView);
+            mEpisodesLayout.addView(imageView);
+        }
 
-        mDescriptionTextView.setText(memory.getDescription());
+        String description = memory.getDescription();
+        if (description == null) mDescriptionTextView.setText(R.string.no_description);
+        else mDescriptionTextView.setText(description);
     }
 
     @Override

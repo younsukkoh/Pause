@@ -35,4 +35,10 @@
     <string name="confirm_create_account">Confirm and Create Account</string>
     <string name="confirm_error">Check the code again</string>
     <string name="login_error">Error occurred while logging in</string>
+
+    <!-- My Memory Fragment -->
+    <string name="no_title">No Title</string>
+    <string name="no_location">No Location</string>
+    <string name="no_description">No Description</string>
+
 </resources>

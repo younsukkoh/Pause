@@ -1,6 +1,14 @@
 package pause.sip.younsukkoh.pause.pojo;
 
+import com.google.firebase.database.Exclude;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**
  * Created by Younsuk on 8/5/2016.
@@ -9,32 +17,55 @@ public class Memory {
 
     String memoryId;
     //who
-    HashMap<String, String> people;
+    HashMap<String, Object> people;
     int numberOfPeople;
     //what
     String title;
-    HashMap<String, String> episodes;
+    HashMap<String, Object> episodes;
     int numberOfEpisodes;
     //when
     long timeCreated;
     //where
-    String address;
-    long longitude;
-    long latitude;
+    String location;
+    double longitude;
+    double latitude;
     //why
     String description;
 
     public Memory() {
     }
 
-    public Memory(String memoryId, HashMap<String, String> people, int numberOfPeople, HashMap<String, String> episodes, int numberOfEpisodes, long timeCreated, String address, long longitude, long latitude) {
+    /**
+     * Used for creating a memory from a scratch with a single photo
+     * @param memoryId
+     * @param currentUser
+     * @param episodeUrl
+     * @param timeCreated
+     * @param location
+     * @param longitude
+     * @param latitude
+     */
+    public Memory(String memoryId, String currentUser, String episodeUrl, long timeCreated, String location, double longitude, double latitude) {
         this.memoryId = memoryId;
+
+        ArrayList<String> listOfPeople = new ArrayList();
+        listOfPeople.add(currentUser);
+        HashMap<String, Object> people = new HashMap<>();
+        people.put(Constants.LIST, listOfPeople);
         this.people = people;
-        this.numberOfPeople = numberOfPeople;
+
+        this.numberOfPeople = 1;
+
+        ArrayList<String> listOfEpisodes = new ArrayList<>();
+        listOfEpisodes.add(episodeUrl);
+        HashMap<String, Object> episodes = new HashMap<>();
+        episodes.put(Constants.LIST, listOfEpisodes);
         this.episodes = episodes;
-        this.numberOfEpisodes = numberOfEpisodes;
+
+        this.numberOfEpisodes = 1;
+
         this.timeCreated = timeCreated;
-        this.address = address;
+        this.location = location;
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -47,11 +78,11 @@ public class Memory {
         this.memoryId = memoryId;
     }
 
-    public HashMap<String, String> getPeople() {
+    public HashMap<String, Object> getPeople() {
         return people;
     }
 
-    public void setPeople(HashMap<String, String> people) {
+    public void setPeople(HashMap<String, Object> people) {
         this.people = people;
     }
 
@@ -63,11 +94,11 @@ public class Memory {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public HashMap<String, String> getEpisodes() {
+    public HashMap<String, Object> getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(HashMap<String, String> episodes) {
+    public void setEpisodes(HashMap<String, Object> episodes) {
         this.episodes = episodes;
     }
 
@@ -95,15 +126,15 @@ public class Memory {
         this.timeCreated = timeCreated;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLocation() {
+        return location;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -111,7 +142,7 @@ public class Memory {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 

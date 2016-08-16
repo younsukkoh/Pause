@@ -49,6 +49,8 @@
             android:layout_height="wrap_content"
             android:text="This is a why. This is a description. This could be really long."/>
 
+        
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

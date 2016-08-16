@@ -1,15 +1,11 @@
 package pause.sip.younsukkoh.pause.my_memory;
 
 
-import android.util.Log;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
-import pause.sip.younsukkoh.pause.login.LoginActivity;
 import pause.sip.younsukkoh.pause.pojo.Memory;
-import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**
  * Created by Younsuk on 8/5/2016.
