@@ -1,61 +1,20 @@
 package pause.sip.younsukkoh.pause.my_memory;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import pause.sip.younsukkoh.pause.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
-import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
-import pause.sip.younsukkoh.pause.utility.Utility;
 
 /**
  * Created by Younsuk on 8/5/2016.
@@ -67,7 +26,7 @@ public class MyMemoryFragment extends BaseFragment implements GoogleApiClient.Co
     private RecyclerView mRecyclerView;
     private MyMemoryAdapter mMyMemoryAdapter;
 
-    private FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mPencilFab;
+    private FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mDocumentFab, mPhotoFab;
 
     /**
      * Initialize My Memory Fragment
@@ -126,8 +85,16 @@ public class MyMemoryFragment extends BaseFragment implements GoogleApiClient.Co
             }
         });
 
-        mPencilFab = (FloatingActionButton) view.findViewById(R.id.mmf_fab_pencil);
-        mPencilFab.setOnClickListener(new View.OnClickListener() {
+        mDocumentFab = (FloatingActionButton) view.findViewById(R.id.mmf_fab_document);
+        mDocumentFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mPhotoFab = (FloatingActionButton) view.findViewById(R.id.mmf_fab_photo);
+        mPhotoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -143,7 +110,7 @@ public class MyMemoryFragment extends BaseFragment implements GoogleApiClient.Co
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mMyMemoryAdapter = new MyMemoryAdapter(Memory.class, R.layout.my_memory_view_holder, MyMemoryViewHolder.class, mRoomDatabaseRef, mUserEncodedEmail);
+        mMyMemoryAdapter = new MyMemoryAdapter(Memory.class, R.layout.my_memory_view_holder, MyMemoryViewHolder.class, mRoomDatabaseRef, mUserEncodedEmail, getActivity());
         mRecyclerView.setAdapter(mMyMemoryAdapter);
     }
 
@@ -157,11 +124,13 @@ public class MyMemoryFragment extends BaseFragment implements GoogleApiClient.Co
 
             mCameraFab.startAnimation(mFabClose);
             mRecorderFab.startAnimation(mFabClose);
-            mPencilFab.startAnimation(mFabClose);
+            mDocumentFab.startAnimation(mFabClose);
+            mPhotoFab.startAnimation(mFabClose);
 
             mCameraFab.setClickable(false);
             mRecorderFab.setClickable(false);
-            mPencilFab.setClickable(false);
+            mDocumentFab.setClickable(false);
+            mPhotoFab.setClickable(false);
 
             mIsFabOpen = false;
         }
@@ -170,17 +139,17 @@ public class MyMemoryFragment extends BaseFragment implements GoogleApiClient.Co
 
             mCameraFab.startAnimation(mFabOpen);
             mRecorderFab.startAnimation(mFabOpen);
-            mPencilFab.startAnimation(mFabOpen);
+            mDocumentFab.startAnimation(mFabOpen);
+            mPhotoFab.startAnimation(mFabOpen);
 
             mCameraFab.setClickable(true);
             mRecorderFab.setClickable(true);
-            mPencilFab.setClickable(true);
+            mDocumentFab.setClickable(true);
+            mPhotoFab.setClickable(true);
 
             mIsFabOpen = true;
         }
     }
-
-
 
     @Override
     public void onDestroy() {

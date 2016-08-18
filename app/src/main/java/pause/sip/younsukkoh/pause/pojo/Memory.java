@@ -102,12 +102,27 @@ public class Memory {
         this.episodes = episodes;
     }
 
+    public void updateEpisodes(String newEpisode) {
+        //Add new episode's download url to the current one
+        ArrayList<String> updatedListOfEpisodes = (ArrayList<String>) getEpisodes().get(Constants.LIST);
+        updatedListOfEpisodes.add(newEpisode);
+
+        //Overwrite the existing episodes with updated episodes
+        HashMap<String, Object> updatedEpisodes = new HashMap<>();
+        updatedEpisodes.put(Constants.LIST, updatedListOfEpisodes);
+        setEpisodes(updatedEpisodes);
+    }
+
     public int getNumberOfEpisodes() {
         return numberOfEpisodes;
     }
 
     public void setNumberOfEpisodes(int numberOfEpisodes) {
         this.numberOfEpisodes = numberOfEpisodes;
+    }
+
+    public void updateNumberOfEpisodes(int numberOfEpisodesAdded) {
+
     }
 
     public String getTitle() {

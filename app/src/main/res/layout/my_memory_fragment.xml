@@ -32,15 +32,16 @@
         android:src="@drawable/recorder_white"
         android:visibility="invisible"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_pencil"
+        android:id="@+id/mmf_fab_document"
         style="@style/FloatingActionButton"
         android:layout_above="@id/mmf_fab_recorder"
         android:src="@drawable/document_brown"
         android:visibility="invisible"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_images"
+        android:id="@+id/mmf_fab_photo"
         style="@style/FloatingActionButton"
-        android:layout_above="@id/mmf_fab_pencil"
+        android:layout_above="@id/mmf_fab_document"
         android:src="@drawable/image_brown"
         android:visibility="invisible"/>
+
 </RelativeLayout>

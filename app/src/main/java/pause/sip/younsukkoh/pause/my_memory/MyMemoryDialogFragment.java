@@ -1,7 +1,7 @@
-package pause.sip.younsukkoh.pause;
+package pause.sip.younsukkoh.pause.my_memory;
 
-import android.*;
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -16,11 +16,15 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,8 +36,11 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,33 +49,29 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import pause.sip.younsukkoh.pause.my_memory.MyMemoryFragment;
+import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
 
 /**
- * Basis for Fragment
- * Main functions
- * (1) Request permissions for taking picture, launch camera, save the image taken in Storage and its information in Database
- * (2) Animation for FAB
- * (3) Retrieving location of the user once the fragment is created
- * Created by Younsuk on 8/14/2016.
+ * Created by Younsuk on 8/18/2016.
  */
-public class BaseFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MyMemoryDialogFragment extends android.app.DialogFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = BaseFragment.class.getSimpleName();
+    private static String TAG = MyMemoryDialogFragment.class.getSimpleName();
 
-    protected String mUserEncodedEmail;
-    protected DatabaseReference mMainDatabaseRef;
-    protected DatabaseReference mRoomDatabaseRef;
-    //What
-    protected File mImageFile;
+    private String mUserEncodedEmail, mMemoryId;
+    private File mImageFile;
+    private Button mCameraButton, mRecorderButton, mDocumentButton, mPhotoButton, mCancelButton;
+    private DatabaseReference mMainDatabaseRef;
 
     //Where
     protected GoogleApiClient mGoogleApiClient;
@@ -76,33 +79,82 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     protected double mLongitude;
     protected String mLocation;
 
-    protected Boolean mIsFabOpen = false;
-    protected Animation mFabOpen,mFabClose, mRotateForward, mRotateBackward;
+    /**
+     * Initialize My Memory Dialog Fragment
+     */
+    public static MyMemoryDialogFragment newInstance(String userEncodedEmail, String memoryId) {
+        Bundle args = new Bundle();
+        args.putString(Constants.ARG_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_MEMORY_ID, memoryId);
+
+        MyMemoryDialogFragment fragment = new MyMemoryDialogFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserEncodedEmail = getArguments().getString(Constants.ARG_ENCODED_EMAIL);
+        mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
+
         mMainDatabaseRef = FirebaseDatabase.getInstance().getReference();
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this) //As connection happens, the latitude, the longitude and the location will be setup.
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
     }
 
-    protected void setUpUI(View view) {
-        mFabOpen = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_open);
-        mFabClose = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_close);
-        mRotateForward = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_forward);
-        mRotateBackward = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_backward);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.my_memory_dialog_fragment, container, false);
+
+        mCameraButton = (Button) view.findViewById(R.id.mmdf_b_camera);
+        mCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkForPermission_CameraButton();
+                launchCamera();
+            }
+        });
+
+        mRecorderButton = (Button) view.findViewById(R.id.mmdf_b_recorder);
+        mRecorderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mDocumentButton = (Button) view.findViewById(R.id.mmdf_b_document);
+        mDocumentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mPhotoButton = (Button) view.findViewById(R.id.mmdf_b_photo);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mCancelButton = (Button) view.findViewById(R.id.mmdf_b_cancel);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        return view;
     }
 
     /**
      * If build version is less than M, then no need to check for runtime permission. Otherwise, check for permission.
      */
     public void checkForPermission_CameraButton() {
-        Log.i(TAG, "checkForPermission;");
+        Log.i(Constants.TAG_DEBUG, "checkForPermission;");
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) return;
 
@@ -114,7 +166,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
      * Start camera
      */
     public void launchCamera() {
-        Log.i(TAG, "launchCamera;");
+        Log.i(Constants.TAG_DEBUG, "launchCamera;");
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA }, Constants.REQUEST_CAMERA);
@@ -173,31 +225,29 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
 
             UploadTask uploadTask = fileRef.putStream(inputStream);
 
-            Log.i(TAG, "uploadToFirebaseStorage; " + uploadTask.isSuccessful());
+            Log.i(Constants.TAG_DEBUG, "uploadToFirebaseStorage; " + uploadTask.isSuccessful());
 
             uploadTask
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //Retrieve download url into String.class
-                            String downloadUrl_String = taskSnapshot.getDownloadUrl().toString();
-                            //Upload memory into database and receive memoryId
-                            String memoryId = uploadMemoryToDatabase(downloadUrl_String);
+                            String newEpisode_Download_URL = taskSnapshot.getDownloadUrl().toString();
                             //Using memory id and download url upload episode into database
-                            uploadEpisodeToDatabase(memoryId, downloadUrl_String);
+                            uploadEpisodeToDatabase(newEpisode_Download_URL);
 
-                            Log.i(TAG, "uploadToFirebaseStorage; uploadTask onSuccess; " + downloadUrl_String);
+                            Log.i(Constants.TAG_DEBUG, "uploadToFirebaseStorage; uploadTask onSuccess; " + newEpisode_Download_URL);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "uploadToFirebaseStorage; uploadTask onFailure; " + e.getMessage());
+                            Log.e(Constants.TAG_DEBUG, "uploadToFirebaseStorage; uploadTask onFailure; " + e.getMessage());
                         }
                     });
         }
         catch (IOException ioe) {
-            Log.e(TAG, "uploadToFirebaseStorage; InputStream failed; " + ioe.getMessage());
+            Log.e(Constants.TAG_DEBUG, "uploadToFirebaseStorage; InputStream failed; " + ioe.getMessage());
         }
         finally {
             mImageFile.delete();
@@ -207,52 +257,60 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     /**
      * Store the episode into database
      */
-    private void uploadEpisodeToDatabase(String memoryId, String downloadUrl) {
-        Log.i(TAG, "uploadEpisodeToDatabase");
+    private void uploadEpisodeToDatabase(final String newEpisode) {
+        Log.i(Constants.TAG_DEBUG, "uploadEpisodeToDatabase");
 
-        DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + memoryId).push();
-        Episode episode = new Episode(downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
-        episodeRef.setValue(episode);
-    }
+        //Update my_room_EMAIL
+        final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail).child(mMemoryId);
+        myMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Memory memory = dataSnapshot.getValue(Memory.class);
 
-    /**
-     * Store memory into database
-     * @return unique memory id created from push()
-     */
-    private String uploadMemoryToDatabase(String downloadUrl) {
-        Log.i(TAG, "uploadMemoryToDatabase");
+                ArrayList<String> episodes = (ArrayList<String>) memory.getEpisodes().get(Constants.LIST);
+                episodes.add(newEpisode);
 
-        DatabaseReference databaseReference = mRoomDatabaseRef.push();
+                HashMap<String, Object> updatedEpisodes = new HashMap<String, Object>();
+                updatedEpisodes.put(Constants.LIST, episodes);
 
-        String memoryId = databaseReference.getKey();
+                int updatedNumberOfEpisodes = memory.getNumberOfEpisodes() + 1;
 
-        //Latitude, longitude, and the location is obtained from onConnected
-        Memory memory = new Memory(memoryId, mUserEncodedEmail, downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
-        databaseReference.setValue(memory);
+                HashMap<String, Object> updatedMemoryInfo = new HashMap<String, Object>();
+                updatedMemoryInfo.put(Constants.EPISODES, updatedEpisodes);
+                updatedMemoryInfo.put(Constants.NUMBER_OF_EPISODES, updatedNumberOfEpisodes);
 
-        animateFloatingActionButton();
+                myMemoryDatabaseRef.updateChildren(updatedMemoryInfo);
+            }
 
-        return memoryId;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getMessage());
+            }
+        });
+
+        //Add episode to current memory
+        DatabaseReference episodeDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId).push();
+        Episode episode = new Episode(newEpisode, new Date().getTime(), mLocation, mLongitude, mLatitude);
+        episodeDatabaseRef.setValue(episode);
+
+        dismiss();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionsResult");
+        Log.i(Constants.TAG_DEBUG, "onRequestPermissionsResult");
         if (grantResults.length == 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "onRequestPermissionsResult, Permission not granted.");
+            Log.i(Constants.TAG_DEBUG, "onRequestPermissionsResult, Permission not granted.");
             return;
         }
 
         if (requestCode == Constants.REQUEST_CAMERA_BUTTON_PERMISSIONS) {
-            Log.i(TAG, "onRequestPermissionsResult; permission granted");
+            Log.i(Constants.TAG_DEBUG, "onRequestPermissionsResult; permission granted");
             return;
         }
 
     }
 
-    /**
-     * As Google API Client is connected, the user is provided with current latitude and longitude.
-     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         //Check again for permission
@@ -264,7 +322,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
             Log.i(TAG, "onConnected; location is null.");
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addApi(Places.PLACE_DETECTION_API)
-                    .enableAutoManage(getActivity(), 0, this)
+                    .enableAutoManage((FragmentActivity) getActivity(), 0, this)
                     .build();
 
             PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
@@ -298,7 +356,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
             }
         }
 
-        Log.i(Constants.TAG_DEBUG, "onConnected; Lat: " + mLatitude + ". Long: " + mLongitude + ". Location: " + mLocation);
+        Log.i(TAG, "onConnected; Lat: " + mLatitude + ". Long: " + mLongitude + ". Location: " + mLocation);
     }
 
     @Override
@@ -317,20 +375,5 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
             }
         }
         else Log.e(TAG, "onConnectionFailed. No solution found. " + connectionResult.getErrorMessage());
-    }
-
-    protected void animateFloatingActionButton() {
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        if (!mGoogleApiClient.isConnected()) mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        if (mGoogleApiClient.isConnected()) mGoogleApiClient.disconnect();
     }
 }

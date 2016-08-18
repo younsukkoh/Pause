@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is the message."/>
+
+    <Button
+        android:id="@+id/mmdf_b_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera; Take a picture"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:id="@+id/mmdf_b_recorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recorder; Record a video"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:id="@+id/mmdf_b_document"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Document; Write a journal"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:id="@+id/mmdf_b_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Photo; Import photo(s)"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:id="@+id/mmdf_b_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        style="?android:attr/borderlessButtonStyle"/>
+
+</LinearLayout>

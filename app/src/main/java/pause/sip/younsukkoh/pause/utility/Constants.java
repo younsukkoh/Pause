@@ -26,6 +26,18 @@ public final class Constants {
     //Firebase Storage Reference Points
     public static final String IMAGES = "images/";
 
+    //Memory POJO
+    public static final String PEOPLE = "people";
+    public static final String NUMBER_OF_PEOPLE = "numberOfPeople";
+    public static final String TITLE = "title";
+    public static final String EPISODES = "episodes";
+    public static final String NUMBER_OF_EPISODES = "numberOfEpisodes";
+    public static final String TIME_CREATED = "timeCreated";
+    public static final String LOCATION = "location";
+    public static final String LONGITUDE = "longitude";
+    public static final String LATITUDE = "latitude";
+    public static final String DESCRIPTION = "description";
+
     //Shared Preference
     public static final String SP_ENCODED_USER_EMAIL = "sp_encoded_user_email";
 
@@ -35,6 +47,7 @@ public final class Constants {
 
     //Bundle Argument Extras
     public static final String ARG_ENCODED_EMAIL = "arg_encoded_email";
+    public static final String ARG_MEMORY_ID = "arg_memory_id";
 
     //REQUEST PERMISSION
     public static final int REQUEST_CAMERA_BUTTON_PERMISSIONS = 7;

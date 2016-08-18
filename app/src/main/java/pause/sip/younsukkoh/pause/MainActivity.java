@@ -6,15 +6,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import pause.sip.younsukkoh.pause.my_memory.MyMemoryFragment;
 import pause.sip.younsukkoh.pause.our_memories.OurMemoriesFragment;
+import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.settings.SettingsFragment;
 import pause.sip.younsukkoh.pause.users.UsersFragment;
 import pause.sip.younsukkoh.pause.utility.Constants;
+import pause.sip.younsukkoh.pause.utility.Utility;
 
 public class MainActivity extends BaseActivity {
 
