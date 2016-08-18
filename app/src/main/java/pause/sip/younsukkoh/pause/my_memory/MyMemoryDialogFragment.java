@@ -262,7 +262,7 @@ public class MyMemoryDialogFragment extends android.app.DialogFragment implement
 
         //Update my_room_EMAIL
         final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail).child(mMemoryId);
-        myMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
@@ -286,7 +286,9 @@ public class MyMemoryDialogFragment extends android.app.DialogFragment implement
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getMessage());
             }
-        });
+        };
+        myMemoryDatabaseRef.addListenerForSingleValueEvent(valueEventListener);
+        myMemoryDatabaseRef.removeEventListener(valueEventListener);
 
         //Add episode to current memory
         DatabaseReference episodeDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId).push();
