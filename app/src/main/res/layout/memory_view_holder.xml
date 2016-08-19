@@ -13,22 +13,22 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/mmvh_tv_what_title"
+            android:id="@+id/mvh_tv_what_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="What Title"/>
         <TextView
-            android:id="@+id/mmvh_tv_who_people"
+            android:id="@+id/mvh_tv_who_people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Who People"/>
         <TextView
-            android:id="@+id/mmvh_tv_when_time"
+            android:id="@+id/mvh_tv_when_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="When Time"/>
         <TextView
-            android:id="@+id/mmvh_tv_where_location"
+            android:id="@+id/mvh_tv_where_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Where Location"/>
@@ -37,14 +37,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:id="@+id/mmvh_ll_images"
+                android:id="@+id/mvh_ll_images"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
         </HorizontalScrollView>
 
         <TextView
-            android:id="@+id/mmvh_tv_why_description"
+            android:id="@+id/mvh_tv_why_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This is a why. This is a description. This could be really long."/>
@@ -54,18 +54,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ImageButton
-                android:id="@+id/mmvh_b_edit"
+                android:id="@+id/mvh_b_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/edit_brown"/>
             <ImageButton
-                android:id="@+id/mmvh_b_add"
+                android:id="@+id/mvh_b_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/add_brown"/>
         </LinearLayout>
-
-
 
     </LinearLayout>
 

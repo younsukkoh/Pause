@@ -1,4 +1,4 @@
-package pause.sip.younsukkoh.pause.our_memories;
+package pause.sip.younsukkoh.pause.our_room;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,18 +12,18 @@ import pause.sip.younsukkoh.pause.utility.Constants;
 /**
  * Created by Younsuk on 8/5/2016.
  */
-public class OurMemoriesFragment extends Fragment{
+public class OurRoomFragment extends Fragment{
 
     /**
      * Initialize Our Memories Fragment
      * @param userEncodedEmail pass on current user's encoded email
      * @return
      */
-    public static OurMemoriesFragment newInstance(String userEncodedEmail) {
+    public static OurRoomFragment newInstance(String userEncodedEmail) {
         Bundle args = new Bundle();
-        args.putString(Constants.ARG_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
 
-        OurMemoriesFragment fragment = new OurMemoriesFragment();
+        OurRoomFragment fragment = new OurRoomFragment();
         fragment.setArguments(args);
 
         return fragment;
@@ -36,7 +36,7 @@ public class OurMemoriesFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.our_memories_fragment, container, false);
+        View view = inflater.inflate(R.layout.our_room_fragment, container, false);
         return view;
     }
 

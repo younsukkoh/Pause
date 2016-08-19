@@ -1,6 +1,5 @@
 package pause.sip.younsukkoh.pause;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -46,7 +45,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import pause.sip.younsukkoh.pause.my_memory.MyMemoryFragment;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
@@ -66,7 +64,8 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
 
     protected String mUserEncodedEmail;
     protected DatabaseReference mMainDatabaseRef;
-    protected DatabaseReference mRoomDatabaseRef;
+    protected DatabaseReference mCurrentDatabaseRef;
+
     //What
     protected File mImageFile;
 
@@ -82,7 +81,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserEncodedEmail = getArguments().getString(Constants.ARG_ENCODED_EMAIL);
+        mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
         mMainDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this) //As connection happens, the latitude, the longitude and the location will be setup.
@@ -101,7 +100,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     /**
      * If build version is less than M, then no need to check for runtime permission. Otherwise, check for permission.
      */
-    public void checkForPermission_CameraButton() {
+    protected void checkForPermission_CameraButton() {
         Log.i(TAG, "checkForPermission;");
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) return;
@@ -113,7 +112,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     /**
      * Start camera
      */
-    public void launchCamera() {
+    protected void launchCamera() {
         Log.i(TAG, "launchCamera;");
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -150,7 +149,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == Constants.REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
             Log.i(TAG, "onActivityResult; resultCode OK");
-            uploadToFirebaseStorage();
+            uploadEpisodeToFirebaseStorage();
         }
         else {
             Log.i(TAG, "onActivityResult; resultCode " + resultCode);
@@ -160,8 +159,8 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     /**
      * Upload the image into Firebase Storage
      */
-    private void uploadToFirebaseStorage() {
-        Log.i(TAG, "uploadToFirbaseStorage;");
+    private void uploadEpisodeToFirebaseStorage() {
+        Log.i(TAG, "uploadEpisodeToFirbaseStorage;");
 
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageRef = firebaseStorage.getReferenceFromUrl(Constants.FIREBASE_STORAGE_URL);
@@ -173,7 +172,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
 
             UploadTask uploadTask = fileRef.putStream(inputStream);
 
-            Log.i(TAG, "uploadToFirebaseStorage; " + uploadTask.isSuccessful());
+            Log.i(TAG, "uploadEpisodeToFirebaseStorage; " + uploadTask.isSuccessful());
 
             uploadTask
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -186,28 +185,29 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
                             //Using memory id and download url upload episode into database
                             uploadEpisodeToDatabase(memoryId, downloadUrl_String);
 
-                            Log.i(TAG, "uploadToFirebaseStorage; uploadTask onSuccess; " + downloadUrl_String);
+                            Log.i(TAG, "uploadEpisodeToFirebaseStorage; uploadTask onSuccess; " + downloadUrl_String);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "uploadToFirebaseStorage; uploadTask onFailure; " + e.getMessage());
+                            Log.e(TAG, "uploadEpisodeToFirebaseStorage; uploadTask onFailure; " + e.getMessage());
                         }
                     });
         }
         catch (IOException ioe) {
-            Log.e(TAG, "uploadToFirebaseStorage; InputStream failed; " + ioe.getMessage());
+            Log.e(TAG, "uploadEpisodeToFirebaseStorage; InputStream failed; " + ioe.getMessage());
         }
         finally {
             mImageFile.delete();
+            animateFloatingActionButton();
         }
     }
 
     /**
      * Store the episode into database
      */
-    private void uploadEpisodeToDatabase(String memoryId, String downloadUrl) {
+    protected void uploadEpisodeToDatabase(String memoryId, String downloadUrl) {
         Log.i(TAG, "uploadEpisodeToDatabase");
 
         DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + memoryId).push();
@@ -219,18 +219,16 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
      * Store memory into database
      * @return unique memory id created from push()
      */
-    private String uploadMemoryToDatabase(String downloadUrl) {
+    protected String uploadMemoryToDatabase(String downloadUrl) {
         Log.i(TAG, "uploadMemoryToDatabase");
 
-        DatabaseReference databaseReference = mRoomDatabaseRef.push();
+        DatabaseReference databaseReference = mCurrentDatabaseRef.push();
 
         String memoryId = databaseReference.getKey();
 
         //Latitude, longitude, and the location is obtained from onConnected
         Memory memory = new Memory(memoryId, mUserEncodedEmail, downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
         databaseReference.setValue(memory);
-
-        animateFloatingActionButton();
 
         return memoryId;
     }
@@ -298,7 +296,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
             }
         }
 
-        Log.i(Constants.TAG_DEBUG, "onConnected; Lat: " + mLatitude + ". Long: " + mLongitude + ". Location: " + mLocation);
+        Log.i(TAG, "onConnected; Lat: " + mLatitude + ". Long: " + mLongitude + ". Location: " + mLocation);
     }
 
     @Override

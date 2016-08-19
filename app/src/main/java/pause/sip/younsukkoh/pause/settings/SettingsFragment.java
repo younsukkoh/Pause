@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.login.LoginActivity;
@@ -34,7 +31,7 @@ public class SettingsFragment extends Fragment {
      */
     public static SettingsFragment newInstance(String userEncodedEmail) {
         Bundle args = new Bundle();
-        args.putString(Constants.ARG_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
 
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);

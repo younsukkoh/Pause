@@ -1,14 +1,12 @@
 package pause.sip.younsukkoh.pause.users;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -33,7 +31,7 @@ public class UsersFragment extends Fragment {
      */
     public static UsersFragment newInstance(String userEncodedEmail) {
         Bundle args = new Bundle();
-        args.putString(Constants.ARG_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
 
         UsersFragment fragment = new UsersFragment();
         fragment.setArguments(args);
@@ -44,7 +42,7 @@ public class UsersFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserEncodedEmail = getArguments().getString(Constants.ARG_ENCODED_EMAIL);
+        mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
     }
 
     @Override

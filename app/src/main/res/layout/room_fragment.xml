@@ -7,40 +7,40 @@
     android:background="@color/colorAccent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mmf_rv"
+        android:id="@+id/rf_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_main"
+        android:id="@+id/rf_fab_main"
         app:fabSize="normal"
         style="@style/FloatingActionButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
         android:src="@drawable/add_white"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_camera"
+        android:id="@+id/rf_fab_camera"
         style="@style/FloatingActionButton"
-        android:layout_above="@id/mmf_fab_main"
+        android:layout_above="@id/rf_fab_main"
         android:src="@drawable/camera_white"
         android:visibility="invisible"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_recorder"
+        android:id="@+id/rf_fab_recorder"
         style="@style/FloatingActionButton"
-        android:layout_above="@id/mmf_fab_camera"
+        android:layout_above="@id/rf_fab_camera"
         android:src="@drawable/recorder_white"
         android:visibility="invisible"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_document"
+        android:id="@+id/rf_fab_document"
         style="@style/FloatingActionButton"
-        android:layout_above="@id/mmf_fab_recorder"
+        android:layout_above="@id/rf_fab_recorder"
         android:src="@drawable/document_brown"
         android:visibility="invisible"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mmf_fab_photo"
+        android:id="@+id/rf_fab_photo"
         style="@style/FloatingActionButton"
-        android:layout_above="@id/mmf_fab_document"
+        android:layout_above="@id/rf_fab_document"
         android:src="@drawable/image_brown"
         android:visibility="invisible"/>
 

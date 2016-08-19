@@ -44,9 +44,11 @@ public final class Constants {
     //Intent Extras
     public static final String EXTRA_USER_INFORMATION = "extra_user_information";
     public static final String EXTRA_USER_BIRTHDAY = "extra_user_birthday";
+    public static final String EXTRA_USER_ENCODED_EMAIL = "extra_user_encoded_email";
+    public static final String EXTRA_MEMORY_ID = "extra_memory_id";
 
     //Bundle Argument Extras
-    public static final String ARG_ENCODED_EMAIL = "arg_encoded_email";
+    public static final String ARG_USER_ENCODED_EMAIL = "arg_user_encoded_email";
     public static final String ARG_MEMORY_ID = "arg_memory_id";
 
     //REQUEST PERMISSION
