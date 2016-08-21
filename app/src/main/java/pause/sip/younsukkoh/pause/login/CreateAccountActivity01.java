@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 
-import pause.sip.younsukkoh.pause.BaseActivity;
+import pause.sip.younsukkoh.pause.basis.BaseActivity;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.utility.Utility;
 

@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.Random;
 
-import pause.sip.younsukkoh.pause.BaseActivity;
+import pause.sip.younsukkoh.pause.basis.BaseActivity;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.User;
 import pause.sip.younsukkoh.pause.utility.Constants;

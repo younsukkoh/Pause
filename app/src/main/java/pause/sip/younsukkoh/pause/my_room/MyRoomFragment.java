@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import pause.sip.younsukkoh.pause.BaseFragment;
+import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
@@ -51,7 +51,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.room_fragment, container, false);
+        View view = inflater.inflate(R.layout.my_room_fragment, container, false);
         setUpUI(view);
         setUpRecyclerView(view);
         return view;
@@ -60,7 +60,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
     protected void setUpUI(View view) {
         super.setUpUI(view);
 
-        mMainFab = (FloatingActionButton) view.findViewById(R.id.rf_fab_main);
+        mMainFab = (FloatingActionButton) view.findViewById(R.id.mrf_fab_main);
         mMainFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +68,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
             }
         });
 
-        mCameraFab = (FloatingActionButton) view.findViewById(R.id.rf_fab_camera);
+        mCameraFab = (FloatingActionButton) view.findViewById(R.id.mrf_fab_camera);
         mCameraFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +77,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
             }
         });
 
-        mRecorderFab = (FloatingActionButton) view.findViewById(R.id.rf_fab_recorder);
+        mRecorderFab = (FloatingActionButton) view.findViewById(R.id.mrf_fab_recorder);
         mRecorderFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +85,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
             }
         });
 
-        mDocumentFab = (FloatingActionButton) view.findViewById(R.id.rf_fab_document);
+        mDocumentFab = (FloatingActionButton) view.findViewById(R.id.mrf_fab_document);
         mDocumentFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +93,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
             }
         });
 
-        mPhotoFab = (FloatingActionButton) view.findViewById(R.id.rf_fab_photo);
+        mPhotoFab = (FloatingActionButton) view.findViewById(R.id.mrf_fab_photo);
         mPhotoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +106,7 @@ public class MyRoomFragment extends BaseFragment implements GoogleApiClient.Conn
      * Set up recycler view for memories
      */
     private void setUpRecyclerView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rf_rv);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.mrf_rv);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

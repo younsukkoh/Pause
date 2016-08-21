@@ -2,10 +2,9 @@ package pause.sip.younsukkoh.pause.memory;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import pause.sip.younsukkoh.pause.SingleFragmentActivity;
+import pause.sip.younsukkoh.pause.basis.SingleFragmentActivity;
 import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**

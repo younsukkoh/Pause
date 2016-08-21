@@ -1,4 +1,4 @@
-package pause.sip.younsukkoh.pause;
+package pause.sip.younsukkoh.pause.basis;
 
 import android.Manifest;
 import android.content.Intent;
@@ -45,6 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;

@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 public class Room {
 
+    String roomId;
     //who
     HashMap<Integer, String> members;
     //what
@@ -22,11 +23,20 @@ public class Room {
     public Room() {
     }
 
-    public Room(String name, long created, long updated, HashMap<Integer, String> members) {
+    public Room(String roomId, String name, long created, long updated, HashMap<Integer, String> members) {
+        this.roomId = roomId;
         this.name = name;
         this.created = created;
         this.updated = updated;
         this.members = members;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public String getName() {

@@ -46,10 +46,12 @@ public final class Constants {
     public static final String EXTRA_USER_BIRTHDAY = "extra_user_birthday";
     public static final String EXTRA_USER_ENCODED_EMAIL = "extra_user_encoded_email";
     public static final String EXTRA_MEMORY_ID = "extra_memory_id";
+    public static final String EXTRA_EPISODE_URL = "extra_episode_url";
 
     //Bundle Argument Extras
     public static final String ARG_USER_ENCODED_EMAIL = "arg_user_encoded_email";
     public static final String ARG_MEMORY_ID = "arg_memory_id";
+    public static final String ARG_EPISODE_URL = "arg_episode_url";
 
     //REQUEST PERMISSION
     public static final int REQUEST_CAMERA_BUTTON_PERMISSIONS = 7;

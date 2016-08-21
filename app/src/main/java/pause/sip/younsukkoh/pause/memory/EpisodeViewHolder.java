@@ -1,5 +1,6 @@
 package pause.sip.younsukkoh.pause.memory;
 
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.image.ImageActivity;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.utility.Constants;
 
@@ -29,7 +31,8 @@ public class EpisodeViewHolder extends RecyclerView.ViewHolder {
         mEpisodeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = ImageActivity.newIntent(view.getContext(), mEpisode.getDownloadUrl());
+                view.getContext().startActivity(intent);
             }
         });
     }
@@ -38,7 +41,6 @@ public class EpisodeViewHolder extends RecyclerView.ViewHolder {
         mEpisode = episode;
 
         Picasso.with(mItemView.getContext()).load(episode.getDownloadUrl()).resize(500, 500).into(mEpisodeImageView);
-
-        Log.i(Constants.TAG_DEBUG, "EP " + mEpisode.getDownloadUrl());
     }
+
 }

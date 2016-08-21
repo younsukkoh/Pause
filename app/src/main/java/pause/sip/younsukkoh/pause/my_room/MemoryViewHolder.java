@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.image.ImageActivity;
 import pause.sip.younsukkoh.pause.memory.MemoryActivity;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
@@ -87,6 +89,11 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
         if (title == null) mTitleTextView.setText(R.string.no_title);
         else mTitleTextView.setText(title);
 
+        String listOfPeople = "";
+        ArrayList<String> people = (ArrayList<String>) memory.getPeople().get(Constants.LIST);
+        for (int i = 0; i < memory.getNumberOfPeople(); i ++) listOfPeople = listOfPeople + people.get(i) + ", ";
+        mPeopleTextView.setText(listOfPeople);
+
         mTimeTextView.setText(Utility.DATE_FORMAT.format(new Date(memory.getTimeCreated())));
 
         mLocationTextView.setText(memory.getLocation());
@@ -94,9 +101,21 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
         for (int i = 0; i < memory.getNumberOfEpisodes(); i ++) {
             ImageView imageView = new ImageView(mItemView.getContext());
             imageView.setPadding(6, 4, 4, 4);
+
             ArrayList<String> episodes = (ArrayList<String>) memory.getEpisodes().get(Constants.LIST);
-            Picasso.with(mItemView.getContext()).load(episodes.get(i)).resize(500, 500).into(imageView);
+            final String episodeUrl = episodes.get(i);
+
+            Picasso.with(mItemView.getContext()).load(episodeUrl).resize(500, 500).into(imageView);
+
             mEpisodesLayout.addView(imageView);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = ImageActivity.newIntent(mActivity, episodeUrl);
+                    mActivity.startActivity(intent);
+                }
+            });
         }
 
         String description = memory.getDescription();

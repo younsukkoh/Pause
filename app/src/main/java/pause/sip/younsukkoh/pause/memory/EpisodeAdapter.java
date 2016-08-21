@@ -21,7 +21,6 @@ public class EpisodeAdapter extends FirebaseRecyclerAdapter<Episode, EpisodeView
 
     @Override
     protected void populateViewHolder(EpisodeViewHolder viewHolder, Episode episode, int position) {
-
         viewHolder.bindEpisode(episode);
     }
 }

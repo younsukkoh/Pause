@@ -15,7 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 
-import pause.sip.younsukkoh.pause.BaseActivity;
+import pause.sip.younsukkoh.pause.basis.BaseActivity;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;

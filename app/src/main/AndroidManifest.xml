@@ -19,13 +19,17 @@
 
         <activity android:name=".MainActivity"/>
 
-        <activity android:name=".login.CreateAccountActivity01"/>
+        <activity android:name=".login.CreateAccountActivity01" android:theme="@style/AppThemeNoActionBar"/>
 
-        <activity android:name=".login.CreateAccountActivity02"/>
+        <activity android:name=".login.CreateAccountActivity02" android:theme="@style/AppThemeNoActionBar"/>
 
         <activity android:name=".memory.MemoryActivity"/>
 
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".image.ImageActivity" android:theme="@style/AppThemeNoActionBar"/>
+
+        <activity android:name=".image.ImagePagerActivity" android:theme="@style/AppThemeNoActionBar"/>
+
+        <activity android:name=".login.LoginActivity" android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

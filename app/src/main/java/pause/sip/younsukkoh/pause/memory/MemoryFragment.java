@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pause.sip.younsukkoh.pause.BaseFragment;
+import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
@@ -169,7 +169,7 @@ public class MemoryFragment extends BaseFragment {
      * @return current memory's id
      */
     @Override
-    protected String uploadMemoryToDatabase(String downloadUrl) {
+    protected String uploadMemoryToDatabase(String episodeUrl) {
         return mMemoryId;
     }
 

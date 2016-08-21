@@ -1,9 +1,11 @@
-package pause.sip.younsukkoh.pause;
+package pause.sip.younsukkoh.pause.basis;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+
+import pause.sip.younsukkoh.pause.R;
 
 /**
  * Created by Younsuk on 8/28/2015.
