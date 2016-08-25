@@ -1,6 +1,7 @@
 package pause.sip.younsukkoh.pause.my_room;
 
 import android.Manifest;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -60,13 +62,14 @@ import pause.sip.younsukkoh.pause.utility.Utility;
 /**
  * Created by Younsuk on 8/18/2016.
  */
-public class AddEpisodeDialogFragment extends android.app.DialogFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class AddEpisodeDialogFragment extends DialogFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static String TAG = AddEpisodeDialogFragment.class.getSimpleName();
 
     private String mUserEncodedEmail, mMemoryId;
     private File mImageFile;
-    private Button mCameraButton, mRecorderButton, mDocumentButton, mPhotoButton, mCancelButton;
+    private ImageButton mCameraButton, mRecorderButton, mDocumentButton, mPhotoButton;
+    private Button mCancelButton;
     private DatabaseReference mMainDatabaseRef;
 
     //Where
@@ -102,7 +105,7 @@ public class AddEpisodeDialogFragment extends android.app.DialogFragment impleme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_episode_dialog_fragment, container, false);
 
-        mCameraButton = (Button) view.findViewById(R.id.mrdf_b_camera);
+        mCameraButton = (ImageButton) view.findViewById(R.id.mrdf_b_camera);
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +114,7 @@ public class AddEpisodeDialogFragment extends android.app.DialogFragment impleme
             }
         });
 
-        mRecorderButton = (Button) view.findViewById(R.id.mrdf_b_recorder);
+        mRecorderButton = (ImageButton) view.findViewById(R.id.mrdf_b_recorder);
         mRecorderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +122,7 @@ public class AddEpisodeDialogFragment extends android.app.DialogFragment impleme
             }
         });
 
-        mDocumentButton = (Button) view.findViewById(R.id.mrdf_b_document);
+        mDocumentButton = (ImageButton) view.findViewById(R.id.mrdf_b_document);
         mDocumentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,7 +130,7 @@ public class AddEpisodeDialogFragment extends android.app.DialogFragment impleme
             }
         });
 
-        mPhotoButton = (Button) view.findViewById(R.id.mrdf_b_photo);
+        mPhotoButton = (ImageButton) view.findViewById(R.id.mrdf_b_photo);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -373,5 +376,17 @@ public class AddEpisodeDialogFragment extends android.app.DialogFragment impleme
             }
         }
         else Log.e(TAG, "onConnectionFailed. No solution found. " + connectionResult.getErrorMessage());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!mGoogleApiClient.isConnected()) mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) mGoogleApiClient.disconnect();
     }
 }

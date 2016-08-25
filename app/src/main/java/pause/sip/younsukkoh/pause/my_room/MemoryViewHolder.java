@@ -1,10 +1,10 @@
 package pause.sip.younsukkoh.pause.my_room;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.editor.EditMemoryDialogFragment;
 import pause.sip.younsukkoh.pause.image.ImageActivity;
 import pause.sip.younsukkoh.pause.memory.MemoryActivity;
 import pause.sip.younsukkoh.pause.pojo.Memory;
@@ -60,7 +61,7 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
             @Override
             public void onClick(View view) {
                 AddEpisodeDialogFragment addEpisodeDialogFragment = AddEpisodeDialogFragment.newInstance(mUserEncodedEmail, mMemory.getMemoryId());
-                android.app.FragmentManager fm = mActivity.getFragmentManager();
+                FragmentManager fm = mActivity.getFragmentManager();
                 addEpisodeDialogFragment.show(fm, TAG);
             }
         });
@@ -69,7 +70,9 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                EditMemoryDialogFragment editMemoryDialogFragment = EditMemoryDialogFragment.newInstance(mUserEncodedEmail, mMemory.getMemoryId());
+                FragmentManager fm = mActivity.getFragmentManager();
+                editMemoryDialogFragment.show(fm, TAG);
             }
         });
     }

@@ -47,19 +47,25 @@ public final class Constants {
     public static final String EXTRA_USER_ENCODED_EMAIL = "extra_user_encoded_email";
     public static final String EXTRA_MEMORY_ID = "extra_memory_id";
     public static final String EXTRA_EPISODE_URL = "extra_episode_url";
+    public static final String EXTRA_DATE_TIME = "extra_date_time";
 
     //Bundle Argument Extras
     public static final String ARG_USER_ENCODED_EMAIL = "arg_user_encoded_email";
     public static final String ARG_MEMORY_ID = "arg_memory_id";
     public static final String ARG_EPISODE_URL = "arg_episode_url";
+    public static final String ARG_DATE_TIME = "arg_date_time";
 
     //REQUEST PERMISSION
-    public static final int REQUEST_CAMERA_BUTTON_PERMISSIONS = 7;
-    public static final int REQUEST_ACCESS_FINE_LOCATION = 0;
-    public static final int REQUEST_CAMERA = 1;
-    public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 2;
-    public static final int REQUEST_CONNECTION_FAILURE_SOLUTION = 3;
-    public static final int REQUEST_IMAGE_CAPTURE = 4;
+    public static final int REQUEST_CAMERA_BUTTON_PERMISSIONS = 0;
+    public static final int REQUEST_ACCESS_FINE_LOCATION = 1;
+    public static final int REQUEST_CAMERA = 2;
+    public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 3;
+    public static final int REQUEST_CONNECTION_FAILURE_SOLUTION = 4;
+    public static final int REQUEST_IMAGE_CAPTURE = 5;
+    public static final int REQUEST_PLACE_PICKER = 6;
+
+    //REQUEST TARGET FRAGMENT
+    public static final int REQUEST_TARGET_EMDF = 8;
 
     //Miscellaneous
     public static final String UNDERSCORE = "_";

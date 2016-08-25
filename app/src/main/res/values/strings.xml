@@ -36,9 +36,23 @@
     <string name="confirm_error">Check the code again</string>
     <string name="login_error">Error occurred while logging in</string>
 
-    <!-- My Memory Fragment -->
+    <!-- MyMemoryFragment -->
     <string name="no_title">No Title</string>
     <string name="no_location">No Location</string>
     <string name="no_description">No Description</string>
+
+    <!-- EditMemoryDialogFragment -->
+    <string name="edit_memory">Edit Memory</string>
+    <string name="title">Title</string>
+    <string name="hint_title">Enter A Title</string>
+    <string name="location">Location</string>
+    <string name="hint_location">Enter A Different Location OR Click The Icon To Pick From The Map</string>
+    <string name="description">Description</string>
+    <string name="hint_description">Enter A Description</string>
+    <string name="people">People</string>
+    <string name="date_time">Date and Time</string>
+
+    <!-- EditDateTimeDialogFragment -->
+    <string name="edit_date_time">Edit Date and Time</string>
 
 </resources>

@@ -18,7 +18,7 @@ import pause.sip.younsukkoh.pause.utility.Constants;
 /**
  * Created by Younsuk on 8/5/2016.
  */
-public class MyRoomFragment extends BaseFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MyRoomFragment extends BaseFragment {
 
     private static final String TAG = MyRoomFragment.class.getSimpleName();
 

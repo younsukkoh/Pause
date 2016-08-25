@@ -5,49 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="10dp">
+    android:padding="4dp"
+    android:background="@color/colorAccent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is the message."/>
-
-    <Button
+    <ImageButton
         android:id="@+id/mrdf_b_camera"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Camera; Take a picture"
+        android:src="@drawable/camera_brown"
         style="?android:attr/borderlessButtonStyle"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/mrdf_b_recorder"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recorder; Record a video"
+        android:src="@drawable/recorder_brown"
         style="?android:attr/borderlessButtonStyle"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/mrdf_b_document"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Document; Write a journal"
+        android:src="@drawable/document_brown"
         style="?android:attr/borderlessButtonStyle"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/mrdf_b_photo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Photo; Import photo(s)"
+        android:src="@drawable/photo_brown"
         style="?android:attr/borderlessButtonStyle"/>
 
     <Button
         android:id="@+id/mrdf_b_cancel"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cancel"
         style="?android:attr/borderlessButtonStyle"/>
