@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorAccent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+        <ToggleButton
+            android:id="@+id/uff_s_searchForFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_button_on_off"
+            android:textOn="@string/searching_for_friends"
+            android:textOff="@string/search_for_friends"
+            android:checked="true"
+            android:paddingRight="8dp"/>
+        <ToggleButton
+            android:id="@+id/uff_s_searchForUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_button_on_off"
+            android:textOn="@string/searching_for_users"
+            android:textOff="@string/search_for_users"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/uff_sv_searchUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:inputType="textEmailAddress"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/uff_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
+        <TextView
+            android:id="@+id/uff_tv_noFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_friends"
+            android:textSize="30dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</LinearLayout>

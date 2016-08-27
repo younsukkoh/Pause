@@ -211,7 +211,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     protected void uploadEpisodeToDatabase(String memoryId, String downloadUrl) {
         Log.i(TAG, "uploadEpisodeToDatabase");
 
-        DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + memoryId).push();
+        DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + memoryId).push();
         Episode episode = new Episode(downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
         episodeRef.setValue(episode);
     }

@@ -260,8 +260,8 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
         Log.i(TAG, "uploadEpisodeToDatabase");
 
         //Update my_room_EMAIL
-        final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail).child(mMemoryId);
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail).child(mMemoryId);
+        myMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
@@ -279,18 +279,18 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
                 updatedMemoryInfo.put(Constants.NUMBER_OF_EPISODES, updatedNumberOfEpisodes);
 
                 myMemoryDatabaseRef.updateChildren(updatedMemoryInfo);
+
+                myMemoryDatabaseRef.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getMessage());
             }
-        };
-        myMemoryDatabaseRef.addListenerForSingleValueEvent(valueEventListener);
-        myMemoryDatabaseRef.removeEventListener(valueEventListener);
+        });
 
         //Add episode to current memory
-        DatabaseReference episodeDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId).push();
+        DatabaseReference episodeDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId).push();
         Episode episode = new Episode(newEpisode, new Date().getTime(), mLocation, mLongitude, mLatitude);
         episodeDatabaseRef.setValue(episode);
 

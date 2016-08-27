@@ -159,7 +159,7 @@ public class CreateAccountActivity02 extends BaseActivity {
         String encodedUserEmail = Utility.encodeEmail(mEmail);
         User user = new User(mEmail, mFirstName, mLastName, mGender, mBirthday);
 
-        DatabaseReference userRef = mDatabaseReference.child(Constants.USERS_INFO + encodedUserEmail);
+        DatabaseReference userRef = mDatabaseReference.child(Constants.USERS_INFO_ + encodedUserEmail);
         userRef.setValue(user);
     }
 

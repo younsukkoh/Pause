@@ -59,7 +59,7 @@ public class MemoryFragment extends BaseFragment {
         mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
         //Database reference for current MEMORY
-        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId);
+        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId);
     }
 
     @Override
@@ -185,8 +185,8 @@ public class MemoryFragment extends BaseFragment {
 
         //Update my_room_EMAIL
         final String newEpisode = downloadUrl;
-        final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail).child(mMemoryId);
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail).child(mMemoryId);
+        myMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
@@ -204,15 +204,15 @@ public class MemoryFragment extends BaseFragment {
                 updatedMemoryInfo.put(Constants.NUMBER_OF_EPISODES, updatedNumberOfEpisodes);
 
                 myMemoryDatabaseRef.updateChildren(updatedMemoryInfo);
+
+                myMemoryDatabaseRef.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getMessage());
             }
-        };
-        myMemoryDatabaseRef.addListenerForSingleValueEvent(valueEventListener);
-        myMemoryDatabaseRef.removeEventListener(valueEventListener);
+        });
     }
 
     @Override

@@ -15,12 +15,10 @@ public final class Constants {
     public static final String FIREBASE_STORAGE_URL = "gs://pause-95ab1.appspot.com";
 
     //Firebase Database Reference Points
-    public static final String USERS_INFO = "users_information_";
-    public static final String USERS_ROOM = "users_room_";
-    public static final String USERS_FRIENDS = "users_friends_";
-    public static final String MY_ROOM = "my_room_";
-    public static final String OUR_ROOM_INFO = "our_room_information_";
-    public static final String OUR_ROOM_MEMORIES = "our_room_memories_";
+    public static final String USERS_INFO_ = "users_information_";
+    public static final String USERS_FRIENDS_ = "users_friends_";
+    public static final String MY_ROOM_ = "my_room_";
+    public static final String OUR_ROOM_ = "our_room_";
     public static final String LIST = "list";
 
     //Firebase Storage Reference Points
@@ -51,6 +49,7 @@ public final class Constants {
 
     //Bundle Argument Extras
     public static final String ARG_USER_ENCODED_EMAIL = "arg_user_encoded_email";
+    public static final String ARG_FRIENDS_ENCODED_EMAIL = "arg_friends_encoded_email";
     public static final String ARG_MEMORY_ID = "arg_memory_id";
     public static final String ARG_EPISODE_URL = "arg_episode_url";
     public static final String ARG_DATE_TIME = "arg_date_time";

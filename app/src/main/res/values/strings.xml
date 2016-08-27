@@ -55,4 +55,22 @@
     <!-- EditDateTimeDialogFragment -->
     <string name="edit_date_time">Edit Date and Time</string>
 
+    <!-- UsersFriendsFragment -->
+    <string name="no_friends">No Friends Added Yet</string>
+    <string name="search_for_email">Search For The Email Address</string>
+    <string name="searching_for_friends">Searching For Friends</string>
+    <string name="search_for_friends">Search For Friends?</string>
+    <string name="searching_for_users">Searching For Users</string>
+    <string name="search_for_users">Search For Users?</string>
+    <string name="search_for">Search for...</string>
+    <string name="user_does_not_exist">User With The Given Email Does Not Exist</string>
+    <string name="searched_user_is_you">The Searched User Is YOU!</string>
+
+    <!-- UserProfileDialogFragment -->
+    <string name="displaying_searched_user">Displaying the Searched User</string>
+    <string name="user_name">User Name: </string>
+    <string name="user_birthday">User Birthday: </string>
+    <string name="user_gender">User Gender: </string>
+    <string name="user_email">User Email: </string>
+
 </resources>

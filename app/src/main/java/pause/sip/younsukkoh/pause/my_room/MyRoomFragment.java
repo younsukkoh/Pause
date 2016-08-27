@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Memory;
@@ -46,7 +44,7 @@ public class MyRoomFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Database reference for current ROOM
-        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM + mUserEncodedEmail);
+        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail);
     }
 
     @Override

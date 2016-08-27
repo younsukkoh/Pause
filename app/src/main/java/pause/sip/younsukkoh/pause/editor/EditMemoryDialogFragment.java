@@ -72,21 +72,20 @@ public class EditMemoryDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
-        mMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.MY_ROOM + mUserEncodedEmail).child(mMemoryId);
+        mMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.MY_ROOM_ + mUserEncodedEmail).child(mMemoryId);
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        mMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMemory = dataSnapshot.getValue(Memory.class);
+                mMemoryDatabaseRef.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getMessage());
             }
-        };
-        mMemoryDatabaseRef.addListenerForSingleValueEvent(valueEventListener);
-        mMemoryDatabaseRef.removeEventListener(valueEventListener);
+        });
     }
 
     @Override
@@ -100,7 +99,6 @@ public class EditMemoryDialogFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.i(Constants.TAG_DEBUG, "ok");
                         updateFirebaseDatabase();
                     }
                 });
@@ -148,7 +146,7 @@ public class EditMemoryDialogFragment extends DialogFragment {
 
         mDescriptionEditText = (EditText) view.findViewById(R.id.emf_et_description);
 
-        mMemoryValueEventListener = new ValueEventListener() {
+        mMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
@@ -157,13 +155,15 @@ public class EditMemoryDialogFragment extends DialogFragment {
                 mDateTimeButton.setText(Utility.DATE_TIME_FORMAT.format(new Date(memory.getTimeCreated())));
                 mLocationEditText.setText(memory.getLocation());
                 mDescriptionEditText.setText(memory.getDescription());
+
+                mMemoryDatabaseRef.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getMessage());
             }
-        };
+        });
     }
 
     /**
@@ -195,18 +195,6 @@ public class EditMemoryDialogFragment extends DialogFragment {
             LatLngBounds latLngBounds = PlacePicker.getLatLngBounds(data);
             updateFirebaseDatabse_Where(place, latLngBounds);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMemoryDatabaseRef.addListenerForSingleValueEvent(mMemoryValueEventListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mMemoryDatabaseRef.removeEventListener(mMemoryValueEventListener);
     }
 
     /**
