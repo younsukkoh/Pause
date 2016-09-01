@@ -22,7 +22,7 @@
     <string name="when_were_you_born">When were you born?</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="signUp_successful">Your account was successfully created!</string>
+    <string name="signUp_successful">Your account was successfully timeCreated!</string>
     <string name="signUp_fail">Error occured while creating your account. Please try again.</string>
     <string name="email_match_error">Emails you entered do not match</string>
     <string name="empty_error">This field cannot be empty</string>
@@ -72,5 +72,8 @@
     <string name="user_birthday">User Birthday: </string>
     <string name="user_gender">User Gender: </string>
     <string name="user_email">User Email: </string>
+
+    <!-- AddRoomDialogFragment  -->
+    <string name="select_friends_to_invite">Select Friends To Invite</string>
 
 </resources>

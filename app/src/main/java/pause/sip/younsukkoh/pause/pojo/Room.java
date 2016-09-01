@@ -9,12 +9,13 @@ public class Room {
 
     String roomId;
     //who
-    HashMap<Integer, String> members;
+    HashMap<String, Object> members;
+    int numberOfMembers;
     //what
     String name;
     //when
-    long created;
-    long updated;
+    long timeCreated;
+    long timeUpdated;
     //where
     // N.A.
     //why
@@ -23,12 +24,12 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomId, String name, long created, long updated, HashMap<Integer, String> members) {
+    public Room(String roomId, long timeCreated, HashMap<String, Object> members, int numberOfMembers) {
         this.roomId = roomId;
-        this.name = name;
-        this.created = created;
-        this.updated = updated;
+        this.timeCreated = timeCreated;
+        this.timeUpdated = timeCreated;
         this.members = members;
+        this.numberOfMembers = numberOfMembers;
     }
 
     public String getRoomId() {
@@ -47,27 +48,35 @@ public class Room {
         this.name = name;
     }
 
-    public long getCreated() {
-        return created;
+    public long getTimeCreated() {
+        return timeCreated;
     }
 
-    public void setCreated(long created) {
-        this.created = created;
+    public void setTimeCreated(long timeCreated) {
+        this.timeCreated = timeCreated;
     }
 
-    public long getUpdated() {
-        return updated;
+    public long getTimeUpdated() {
+        return timeUpdated;
     }
 
-    public void setUpdated(long updated) {
-        this.updated = updated;
+    public void setTimeUpdated(long timeUpdated) {
+        this.timeUpdated = timeUpdated;
     }
 
-    public HashMap<Integer, String> getMembers() {
+    public HashMap<String, Object> getMembers() {
         return members;
     }
 
-    public void setMembers(HashMap<Integer, String> members) {
+    public void setMembers(HashMap<String, Object> members) {
         this.members = members;
+    }
+
+    public int getNumberOfMembers() {
+        return numberOfMembers;
+    }
+
+    public void setNumberOfMembers(int numberOfMembers) {
+        this.numberOfMembers = numberOfMembers;
     }
 }

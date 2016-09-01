@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 
 import pause.sip.younsukkoh.pause.basis.BaseActivity;
 import pause.sip.younsukkoh.pause.my_room.MyRoomFragment;
-import pause.sip.younsukkoh.pause.our_rooms.RoomsFragment;
+import pause.sip.younsukkoh.pause.our_rooms.OurRoomsFragment;
 import pause.sip.younsukkoh.pause.settings.SettingsFragment;
 import pause.sip.younsukkoh.pause.users_friends.UsersFriendsFragment;
 
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity {
                 case 0:
                     return MyRoomFragment.newInstance(mUserEncodedEmail);
                 case 1:
-                    return RoomsFragment.newInstance(mUserEncodedEmail);
+                    return OurRoomsFragment.newInstance(mUserEncodedEmail);
                 case 2:
                     return UsersFriendsFragment.newInstance(mUserEncodedEmail);
                 case 3:

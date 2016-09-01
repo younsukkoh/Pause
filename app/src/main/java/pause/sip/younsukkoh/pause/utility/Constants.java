@@ -18,7 +18,7 @@ public final class Constants {
     public static final String USERS_INFO_ = "users_information_";
     public static final String USERS_FRIENDS_ = "users_friends_";
     public static final String MY_ROOM_ = "my_room_";
-    public static final String OUR_ROOM_ = "our_room_";
+    public static final String OUR_ROOMS_ = "our_rooms_";
     public static final String LIST = "list";
 
     //Firebase Storage Reference Points
@@ -46,6 +46,7 @@ public final class Constants {
     public static final String EXTRA_MEMORY_ID = "extra_memory_id";
     public static final String EXTRA_EPISODE_URL = "extra_episode_url";
     public static final String EXTRA_DATE_TIME = "extra_date_time";
+    public static final String EXTRA_ROOM_MEMBERS = "extra_room_members";
 
     //Bundle Argument Extras
     public static final String ARG_USER_ENCODED_EMAIL = "arg_user_encoded_email";
@@ -65,6 +66,7 @@ public final class Constants {
 
     //REQUEST TARGET FRAGMENT
     public static final int REQUEST_TARGET_EMDF = 8;
+    public static final int REQUEST_TARGET_ORF = 9;
 
     //Miscellaneous
     public static final String UNDERSCORE = "_";

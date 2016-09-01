@@ -62,7 +62,6 @@ public class UserProfileDialogFragment extends DialogFragment {
         mMainDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mUserDatabaseRef = mMainDatabaseRef.child(Constants.USERS_INFO_ + mUserEncodedEmail);
         mFriendsDatabaseRef = mMainDatabaseRef.child(Constants.USERS_INFO_ + mFriendsEncodedEmail);
-        Log.i(Constants.TAG_DEBUG, "FD? " + mFriendsDatabaseRef.getKey() + " UD? " + mUserDatabaseRef.getKey());
     }
 
     @Override
@@ -110,7 +109,6 @@ public class UserProfileDialogFragment extends DialogFragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        Log.i(Constants.TAG_DEBUG, "FD mFriend? " + (mFriend==null) + " UD mUser? " + (user==null));
 
                         //Add friend to user's database
                         DatabaseReference usersDatabaseRef = mMainDatabaseRef.child(Constants.USERS_FRIENDS_ + mUserEncodedEmail).child(mFriendsEncodedEmail);
@@ -144,7 +142,6 @@ public class UserProfileDialogFragment extends DialogFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mFriend = dataSnapshot.getValue(User.class);
-                Log.i(Constants.TAG_DEBUG, "FD mFriend? " + (mFriend==null));
                 mEmailTextView.setText(mFriend.getEmail());
                 mNameTextView.setText(mFriend.getFirstName() + " " + mFriend.getLastName());
                 mBirthdayTextView.setText(Utility.DATE_FORMAT.format(new Date(mFriend.getBirthday())));

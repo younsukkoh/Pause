@@ -107,7 +107,7 @@ public class Memory {
         ArrayList<String> updatedListOfEpisodes = (ArrayList<String>) getEpisodes().get(Constants.LIST);
         updatedListOfEpisodes.add(newEpisode);
 
-        //Overwrite the existing episodes with updated episodes
+        //Overwrite the existing episodes with timeUpdated episodes
         HashMap<String, Object> updatedEpisodes = new HashMap<>();
         updatedEpisodes.put(Constants.LIST, updatedListOfEpisodes);
         setEpisodes(updatedEpisodes);
