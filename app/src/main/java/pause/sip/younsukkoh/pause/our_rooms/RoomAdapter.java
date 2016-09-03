@@ -10,12 +10,15 @@ import pause.sip.younsukkoh.pause.pojo.Room;
  */
 public class RoomAdapter extends FirebaseRecyclerAdapter<Room, RoomViewHolder> {
 
-    public RoomAdapter(Class<Room> modelClass, int modelLayout, Class<RoomViewHolder> viewHolderClass, Query ref) {
+    private String mUserEncodedEmail;
+
+    public RoomAdapter(Class<Room> modelClass, int modelLayout, Class<RoomViewHolder> viewHolderClass, Query ref, String userEncodedEmail) {
         super(modelClass, modelLayout, viewHolderClass, ref);
+        mUserEncodedEmail = userEncodedEmail;
     }
 
     @Override
     protected void populateViewHolder(RoomViewHolder viewHolder, Room room, int position) {
-        viewHolder.bindRoom(room);
+        viewHolder.bindRoom(mUserEncodedEmail, room);
     }
 }

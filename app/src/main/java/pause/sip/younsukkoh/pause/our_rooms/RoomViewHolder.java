@@ -9,6 +9,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.my_room.MyRoomFragment;
+import pause.sip.younsukkoh.pause.our_room.OurRoomActivity;
+import pause.sip.younsukkoh.pause.our_room.OurRoomFragment;
 import pause.sip.younsukkoh.pause.pojo.Room;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
@@ -18,11 +21,13 @@ import pause.sip.younsukkoh.pause.utility.Utility;
  */
 public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    private String mUserEncodedEmail;
     private Room mRoom;
     private TextView mNameTextView, mNumberOfMembersTextView, mMembersTextView, mTimeCreatedTextView, mTimeUpdatedTextView;
 
     public RoomViewHolder(View itemView) {
         super(itemView);
+        itemView.setOnClickListener(this);
 
         mNameTextView = (TextView) itemView.findViewById(R.id.rvh_tv_name);
         mNumberOfMembersTextView = (TextView) itemView.findViewById(R.id.rvh_tv_numberOfMembers);
@@ -31,8 +36,9 @@ public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         mTimeUpdatedTextView = (TextView) itemView.findViewById(R.id.rvh_tv_timeUpdated);
     }
 
-    public void bindRoom(Room room) {
+    public void bindRoom(String userEncodedEmail, Room room) {
         mRoom = room;
+        mUserEncodedEmail = userEncodedEmail;
 
         String title = room.getName();
         if (title == null) mNameTextView.setText(R.string.no_title);
@@ -55,6 +61,7 @@ public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
-
+        Intent intent = OurRoomActivity.newIntent(view.getContext(), mUserEncodedEmail, mRoom.getRoomId());
+        view.getContext().startActivity(intent);
     }
 }

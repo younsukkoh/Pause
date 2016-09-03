@@ -25,6 +25,8 @@
 
         <activity android:name=".memory.MemoryActivity"/>
 
+        <activity android:name=".our_room.OurRoomActivity" />
+
         <activity android:name=".image.ImageActivity" android:theme="@style/AppThemeNoActionBar"/>
 
         <activity android:name=".image.ImagePagerActivity" android:theme="@style/AppThemeNoActionBar"/>

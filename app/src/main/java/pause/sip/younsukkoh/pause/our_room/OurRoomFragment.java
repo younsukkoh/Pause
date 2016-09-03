@@ -1,40 +1,51 @@
-package pause.sip.younsukkoh.pause.my_room;
+package pause.sip.younsukkoh.pause.our_room;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import pause.sip.younsukkoh.pause.basis.BaseFragment;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.Date;
+
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.basis.BaseFragment;
+import pause.sip.younsukkoh.pause.my_room.MemoryAdapter;
+import pause.sip.younsukkoh.pause.my_room.MemoryViewHolder;
+import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**
- * Created by Younsuk on 8/5/2016.
+ * Created by Younsuk on 9/1/2016.
  */
-public class MyRoomFragment extends BaseFragment {
+public class OurRoomFragment extends BaseFragment {
 
-    private static final String TAG = MyRoomFragment.class.getSimpleName();
+    private static final String TAG = OurRoomFragment.class.getSimpleName();
+
+    private String mRoomId;
 
     private RecyclerView mRecyclerView;
     private MemoryAdapter mMemoryAdapter;
-
     private FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mDocumentFab, mPhotoFab;
 
     /**
      * Initialize MyRoomFragment
-     * @param userEncodedEmail pass on current user's encoded email
+     * @param roomId pass on current user's encoded email
      * @return
      */
-    public static MyRoomFragment newInstance(String userEncodedEmail) {
+    public static OurRoomFragment newInstance(String userEncodedEmail, String roomId) {
         Bundle args = new Bundle();
         args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_ROOM_ID, roomId);
 
-        MyRoomFragment fragment = new MyRoomFragment();
+        OurRoomFragment fragment = new OurRoomFragment();
         fragment.setArguments(args);
 
         return fragment;
@@ -43,8 +54,9 @@ public class MyRoomFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
         //Database reference for current ROOM
-        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail);
+        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId);
     }
 
     @Override
@@ -113,6 +125,20 @@ public class MyRoomFragment extends BaseFragment {
     }
 
     /**
+     * Store the episode into database
+     */
+    protected void uploadEpisodeToDatabase(String memoryId, String downloadUrl) {
+        Log.i(TAG, "uploadEpisodeToDatabase");
+
+        DatabaseReference ourRoomRef_room_timeUpdated = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mUserEncodedEmail).child(mRoomId).child(Constants.TIME_UPDATED);
+        ourRoomRef_room_timeUpdated.setValue(new Date().getTime());
+
+        DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId + Constants.UNDERSCORE + memoryId).push();
+        Episode episode = new Episode(downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
+        episodeRef.setValue(episode);
+    }
+
+    /**
      * Animate floating action button to the right or left depending on its current position
      */
     @Override
@@ -154,5 +180,4 @@ public class MyRoomFragment extends BaseFragment {
         super.onDestroy();
         mMemoryAdapter.cleanup();
     }
-
 }

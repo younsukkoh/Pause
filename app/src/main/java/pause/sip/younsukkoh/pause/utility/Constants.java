@@ -31,6 +31,7 @@ public final class Constants {
     public static final String EPISODES = "episodes";
     public static final String NUMBER_OF_EPISODES = "numberOfEpisodes";
     public static final String TIME_CREATED = "timeCreated";
+    public static final String TIME_UPDATED = "timeUpdated";
     public static final String LOCATION = "location";
     public static final String LONGITUDE = "longitude";
     public static final String LATITUDE = "latitude";
@@ -47,6 +48,7 @@ public final class Constants {
     public static final String EXTRA_EPISODE_URL = "extra_episode_url";
     public static final String EXTRA_DATE_TIME = "extra_date_time";
     public static final String EXTRA_ROOM_MEMBERS = "extra_room_members";
+    public static final String EXTRA_ROOM_ID = "extra_room_id";
 
     //Bundle Argument Extras
     public static final String ARG_USER_ENCODED_EMAIL = "arg_user_encoded_email";
@@ -54,6 +56,7 @@ public final class Constants {
     public static final String ARG_MEMORY_ID = "arg_memory_id";
     public static final String ARG_EPISODE_URL = "arg_episode_url";
     public static final String ARG_DATE_TIME = "arg_date_time";
+    public static final String ARG_ROOM_ID = "arg_room_id";
 
     //REQUEST PERMISSION
     public static final int REQUEST_CAMERA_BUTTON_PERMISSIONS = 0;

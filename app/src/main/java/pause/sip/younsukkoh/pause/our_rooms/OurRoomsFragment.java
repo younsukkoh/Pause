@@ -35,6 +35,7 @@ public class OurRoomsFragment extends Fragment{
 
     private DatabaseReference mOurRoomsRef;
     private String mUserEncodedEmail;
+    private String mUserDecodedEmail;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter;
@@ -59,6 +60,7 @@ public class OurRoomsFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
+        mUserDecodedEmail = Utility.decodeEmail(mUserEncodedEmail);
         mOurRoomsRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + mUserEncodedEmail);
     }
 
@@ -94,7 +96,7 @@ public class OurRoomsFragment extends Fragment{
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mRoomAdapter = new RoomAdapter(Room.class, R.layout.room_view_holder, RoomViewHolder.class, mOurRoomsRef);
+        mRoomAdapter = new RoomAdapter(Room.class, R.layout.room_view_holder, RoomViewHolder.class, mOurRoomsRef, mUserEncodedEmail);
         mRecyclerView.setAdapter(mRoomAdapter);
     }
 
@@ -103,26 +105,34 @@ public class OurRoomsFragment extends Fragment{
         if (resultCode != Activity.RESULT_OK) return;
 
         if (requestCode == Constants.REQUEST_TARGET_ORF) {
-            ArrayList<String> members = data.getStringArrayListExtra(Constants.EXTRA_ROOM_MEMBERS);
-            members.add(Utility.decodeEmail(mUserEncodedEmail));
-
-            addRoom(members);
+            ArrayList<String> roomMembers = data.getStringArrayListExtra(Constants.EXTRA_ROOM_MEMBERS);
+            roomMembers.add(mUserDecodedEmail);
+            addRoomsForAllUsers(roomMembers);
         }
     }
 
-    private void addRoom(ArrayList<String> roomMembers) {
-        DatabaseReference newRoomRef = mOurRoomsRef.push();
+    /**
+     * Add Room for all the users involved in creation of this room
+     */
+    private void addRoomsForAllUsers(ArrayList<String> roomMembers) {
+        DatabaseReference newRoomRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + mUserEncodedEmail).push();
 
         String roomId = newRoomRef.getKey();
-
         long created = new Date().getTime();
-
+        int numberOfMembers = roomMembers.size();
         HashMap<String, Object> members = new HashMap<>();
         members.put(Constants.LIST, roomMembers);
-
-        int numberOfMembers = roomMembers.size();
-
         Room newRoom = new Room(roomId, created, members, numberOfMembers);
-        newRoomRef.setValue(newRoom);
+
+        for (int i = 0; i < numberOfMembers; i ++) {
+            String decodedEmail = roomMembers.get(i);
+            if (decodedEmail == mUserDecodedEmail) {
+                newRoomRef.setValue(newRoom);
+            }
+            else {
+                DatabaseReference roomRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + Utility.encodeEmail(decodedEmail)).child(roomId);
+                roomRef.setValue(newRoom);
+            }
+        }
     }
 }
