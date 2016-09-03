@@ -134,7 +134,7 @@ public class OurRoomFragment extends BaseFragment {
         ourRoomRef_room_timeUpdated.setValue(new Date().getTime());
 
         DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId + Constants.UNDERSCORE + memoryId).push();
-        Episode episode = new Episode(downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
+        Episode episode = new Episode(episodeRef.getKey(), downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
         episodeRef.setValue(episode);
     }
 

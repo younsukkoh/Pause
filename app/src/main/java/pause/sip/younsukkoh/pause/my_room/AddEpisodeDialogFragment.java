@@ -291,7 +291,7 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
 
         //Add episode to current memory
         DatabaseReference episodeDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId).push();
-        Episode episode = new Episode(newEpisode, new Date().getTime(), mLocation, mLongitude, mLatitude);
+        Episode episode = new Episode(episodeDatabaseRef.getKey() ,newEpisode, new Date().getTime(), mLocation, mLongitude, mLatitude);
         episodeDatabaseRef.setValue(episode);
 
         dismiss();

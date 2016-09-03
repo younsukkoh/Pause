@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 public class Episode {
 
+    String episodeId;
     //who
     HashMap<Integer, String> tags;
     //what
@@ -23,12 +24,31 @@ public class Episode {
     public Episode() {
     }
 
-    public Episode(String downloadUrl, long timeAdded,String location, double longitude, double latitude) {
+    public Episode(String episodeId, String downloadUrl, long timeAdded, String location, double longitude, double latitude) {
+        this.episodeId = episodeId;
+        this.tags = tags;
         this.downloadUrl = downloadUrl;
         this.timeAdded = timeAdded;
+        this.location = location;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.location = location;
+        this.description = description;
+    }
+
+    public String getEpisodeId() {
+        return episodeId;
+    }
+
+    public void setEpisodeId(String episodeId) {
+        this.episodeId = episodeId;
+    }
+
+    public HashMap<Integer, String> getTags() {
+        return tags;
+    }
+
+    public void setTags(HashMap<Integer, String> tags) {
+        this.tags = tags;
     }
 
     public String getDownloadUrl() {
@@ -47,38 +67,6 @@ public class Episode {
         this.timeAdded = timeAdded;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public HashMap<Integer, String> getTags() {
-        return tags;
-    }
-
-    public void setTags(HashMap<Integer, String> tags) {
-        this.tags = tags;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(long longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(long latitude) {
-        this.latitude = latitude;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -87,4 +75,27 @@ public class Episode {
         this.location = location;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

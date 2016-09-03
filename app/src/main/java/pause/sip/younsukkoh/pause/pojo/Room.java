@@ -24,7 +24,7 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomId, long timeCreated, HashMap<String, Object> members, int numberOfMembers) {
+    public Room(String roomId, HashMap<String, Object> members, int numberOfMembers, long timeCreated) {
         this.roomId = roomId;
         this.timeCreated = timeCreated;
         this.timeUpdated = timeCreated;
@@ -38,6 +38,22 @@ public class Room {
 
     public void setRoomId(String roomId) {
         this.roomId = roomId;
+    }
+
+    public HashMap<String, Object> getMembers() {
+        return members;
+    }
+
+    public void setMembers(HashMap<String, Object> members) {
+        this.members = members;
+    }
+
+    public int getNumberOfMembers() {
+        return numberOfMembers;
+    }
+
+    public void setNumberOfMembers(int numberOfMembers) {
+        this.numberOfMembers = numberOfMembers;
     }
 
     public String getName() {
@@ -62,21 +78,5 @@ public class Room {
 
     public void setTimeUpdated(long timeUpdated) {
         this.timeUpdated = timeUpdated;
-    }
-
-    public HashMap<String, Object> getMembers() {
-        return members;
-    }
-
-    public void setMembers(HashMap<String, Object> members) {
-        this.members = members;
-    }
-
-    public int getNumberOfMembers() {
-        return numberOfMembers;
-    }
-
-    public void setNumberOfMembers(int numberOfMembers) {
-        this.numberOfMembers = numberOfMembers;
     }
 }

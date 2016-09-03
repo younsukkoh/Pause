@@ -35,16 +35,6 @@ public class Memory {
     public Memory() {
     }
 
-    /**
-     * Used for creating a memory from a scratch with a single photo
-     * @param memoryId
-     * @param currentUser
-     * @param episodeUrl
-     * @param timeCreated
-     * @param location
-     * @param longitude
-     * @param latitude
-     */
     public Memory(String memoryId, String currentUser, String episodeUrl, long timeCreated, String location, double longitude, double latitude) {
         this.memoryId = memoryId;
 
@@ -94,6 +84,14 @@ public class Memory {
         this.numberOfPeople = numberOfPeople;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public HashMap<String, Object> getEpisodes() {
         return episodes;
     }
@@ -102,35 +100,12 @@ public class Memory {
         this.episodes = episodes;
     }
 
-    public void updateEpisodes(String newEpisode) {
-        //Add new episode's download url to the current one
-        ArrayList<String> updatedListOfEpisodes = (ArrayList<String>) getEpisodes().get(Constants.LIST);
-        updatedListOfEpisodes.add(newEpisode);
-
-        //Overwrite the existing episodes with timeUpdated episodes
-        HashMap<String, Object> updatedEpisodes = new HashMap<>();
-        updatedEpisodes.put(Constants.LIST, updatedListOfEpisodes);
-        setEpisodes(updatedEpisodes);
-    }
-
     public int getNumberOfEpisodes() {
         return numberOfEpisodes;
     }
 
     public void setNumberOfEpisodes(int numberOfEpisodes) {
         this.numberOfEpisodes = numberOfEpisodes;
-    }
-
-    public void updateNumberOfEpisodes(int numberOfEpisodesAdded) {
-
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public long getTimeCreated() {
@@ -153,7 +128,7 @@ public class Memory {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -161,7 +136,7 @@ public class Memory {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

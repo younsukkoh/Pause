@@ -122,7 +122,7 @@ public class OurRoomsFragment extends Fragment{
         int numberOfMembers = roomMembers.size();
         HashMap<String, Object> members = new HashMap<>();
         members.put(Constants.LIST, roomMembers);
-        Room newRoom = new Room(roomId, created, members, numberOfMembers);
+        Room newRoom = new Room(roomId, members, numberOfMembers, created);
 
         for (int i = 0; i < numberOfMembers; i ++) {
             String decodedEmail = roomMembers.get(i);

@@ -23,7 +23,7 @@ public class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     protected String mUserEncodedEmail;
-    protected DatabaseReference mDatabaseReference; //Database reference
+    protected DatabaseReference mMainDatabaseRef; //Database reference
     protected SharedPreferences mSharedPreferences; //Used for saving essential information such as user email
     protected SharedPreferences.Editor mSharedPreferencesEditor;
     protected FirebaseAuth mAuth;
@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mMainDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mSharedPreferencesEditor = mSharedPreferences.edit();
@@ -44,11 +44,6 @@ public class BaseActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         mUserEncodedEmail = mSharedPreferences.getString(Constants.SP_ENCODED_USER_EMAIL, null);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
