@@ -21,6 +21,8 @@ import pause.sip.younsukkoh.pause.utility.Utility;
  */
 public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    private static final String TAG = RoomViewHolder.class.getSimpleName();
+
     private String mUserEncodedEmail;
     private Room mRoom;
     private TextView mNameTextView, mNumberOfMembersTextView, mMembersTextView, mTimeCreatedTextView, mTimeUpdatedTextView;
@@ -37,6 +39,7 @@ public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     }
 
     public void bindRoom(String userEncodedEmail, Room room) {
+        Log.i(Constants.TAG_DEBUG, TAG + " " + room.getRoomId());
         mRoom = room;
         mUserEncodedEmail = userEncodedEmail;
 
@@ -61,6 +64,7 @@ public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
+        Log.i(Constants.TAG_DEBUG, TAG + " " + mRoom.getRoomId());
         Intent intent = OurRoomActivity.newIntent(view.getContext(), mUserEncodedEmail, mRoom.getRoomId());
         view.getContext().startActivity(intent);
     }

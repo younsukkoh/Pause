@@ -99,6 +99,12 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
 
         mMainDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this) //As connection happens, the latitude, the longitude and the location will be setup.
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override

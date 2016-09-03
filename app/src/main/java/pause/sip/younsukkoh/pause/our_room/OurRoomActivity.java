@@ -3,6 +3,7 @@ package pause.sip.younsukkoh.pause.our_room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import pause.sip.younsukkoh.pause.basis.SingleFragmentActivity;
 import pause.sip.younsukkoh.pause.my_room.MyRoomFragment;
@@ -22,6 +23,8 @@ public class OurRoomActivity extends SingleFragmentActivity {
         Intent intent = new Intent(context, OurRoomActivity.class);
         intent.putExtra(Constants.EXTRA_USER_ENCODED_EMAIL, userEncodedEmail);
         intent.putExtra(Constants.EXTRA_ROOM_ID, roomId);
+
+        Log.i(Constants.TAG_DEBUG, TAG + " " + roomId);
 
         return intent;
     }

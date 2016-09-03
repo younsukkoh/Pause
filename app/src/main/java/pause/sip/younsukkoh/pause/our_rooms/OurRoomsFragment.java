@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.our_rooms.add_room.AddRoomDialogFragment;
 import pause.sip.younsukkoh.pause.pojo.Room;
 import pause.sip.younsukkoh.pause.utility.Constants;
@@ -29,17 +31,11 @@ import pause.sip.younsukkoh.pause.utility.Utility;
 /**
  * Created by Younsuk on 8/5/2016.
  */
-public class OurRoomsFragment extends Fragment{
+public class OurRoomsFragment extends BaseFragment {
 
     private static final String TAG = OurRoomsFragment.class.getSimpleName();
 
-    private DatabaseReference mOurRoomsRef;
-    private String mUserEncodedEmail;
     private String mUserDecodedEmail;
-
-    private RecyclerView mRecyclerView;
-    private RoomAdapter mRoomAdapter;
-    private FloatingActionButton mAddRoomFab;
 
     /**
      * Initialize OurRoomsFragment
@@ -59,25 +55,29 @@ public class OurRoomsFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
         mUserDecodedEmail = Utility.decodeEmail(mUserEncodedEmail);
-        mOurRoomsRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + mUserEncodedEmail);
+    }
+
+    @Override
+    protected DatabaseReference setUpCurrentDatabaseRef() {
+        return mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mUserEncodedEmail);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.our_rooms_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view);
+        setUpRecyclerView(view, R.id.orf_rv);
         return view;
     }
 
     /**
      * Set up user interface
      */
-    private void setUpUI(View view) {
-        mAddRoomFab = (FloatingActionButton) view.findViewById(R.id.orf_fab_addRoom);
-        mAddRoomFab.setOnClickListener(new View.OnClickListener() {
+    protected void setUpUI(View view) {
+        super.setUpUI(view);
+        mMainFab = (FloatingActionButton) view.findViewById(R.id.orf_fab_addRoom);
+        mMainFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -89,15 +89,16 @@ public class OurRoomsFragment extends Fragment{
     }
 
     /**
-     * Set up recycler view for rooms
+     * @return FirebaseRecyclerAdapter that lists all the room that the current user is involved in
      */
-    private void setUpRecyclerView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.orf_rv);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    @Override
+    protected FirebaseRecyclerAdapter createRecyclerAdapter() {
+        return new RoomAdapter(Room.class, R.layout.room_view_holder, RoomViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail);
+    }
 
-        mRoomAdapter = new RoomAdapter(Room.class, R.layout.room_view_holder, RoomViewHolder.class, mOurRoomsRef, mUserEncodedEmail);
-        mRecyclerView.setAdapter(mRoomAdapter);
+    @Override
+    protected void animateFloatingActionButton() {
+        return;
     }
 
     @Override

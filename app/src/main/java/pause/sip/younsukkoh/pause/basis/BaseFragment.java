@@ -14,13 +14,18 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -59,13 +64,16 @@ import pause.sip.younsukkoh.pause.utility.Utility;
  * (3) Retrieving location of the user once the fragment is created
  * Created by Younsuk on 8/14/2016.
  */
-public class BaseFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public abstract class BaseFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = BaseFragment.class.getSimpleName();
 
     protected String mUserEncodedEmail;
     protected DatabaseReference mMainDatabaseRef;
     protected DatabaseReference mCurrentDatabaseRef;
+
+    protected RecyclerView mRecyclerView;
+    protected FirebaseRecyclerAdapter mCurrentAdapter;
 
     //What
     protected File mImageFile;
@@ -76,6 +84,7 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     protected double mLongitude;
     protected String mLocation;
 
+    protected FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mDocumentFab, mPhotoFab;
     protected Boolean mIsFabOpen = false;
     protected Animation mFabOpen,mFabClose, mRotateForward, mRotateBackward;
 
@@ -89,13 +98,70 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        mCurrentDatabaseRef = setUpCurrentDatabaseRef();
     }
+
+    protected abstract DatabaseReference setUpCurrentDatabaseRef();
 
     protected void setUpUI(View view) {
         mFabOpen = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_open);
         mFabClose = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_close);
         mRotateForward = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_forward);
         mRotateBackward = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_backward);
+    }
+
+    /**
+     * Set up recycler view for memories
+     */
+    protected void setUpRecyclerView(View view, int recyclerViewId) {
+        mRecyclerView = (RecyclerView) view.findViewById(recyclerViewId);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mCurrentAdapter = createRecyclerAdapter();
+        mRecyclerView.setAdapter(mCurrentAdapter);
+    }
+
+    /**
+     * @return Custom FirebaseRecyclerAdapter
+     */
+    protected abstract FirebaseRecyclerAdapter createRecyclerAdapter();
+
+    /**
+     * Animate floating action button to the right or left depending on its current position
+     * However, if FAB does trigger adding contents override the method and just return.
+     */
+    protected void animateFloatingActionButton() {
+        if (mIsFabOpen) {
+            mMainFab.startAnimation(mRotateBackward);
+
+            mCameraFab.startAnimation(mFabClose);
+            mRecorderFab.startAnimation(mFabClose);
+            mDocumentFab.startAnimation(mFabClose);
+            mPhotoFab.startAnimation(mFabClose);
+
+            mCameraFab.setClickable(false);
+            mRecorderFab.setClickable(false);
+            mDocumentFab.setClickable(false);
+            mPhotoFab.setClickable(false);
+
+            mIsFabOpen = false;
+        }
+        else {
+            mMainFab.startAnimation(mRotateForward);
+
+            mCameraFab.startAnimation(mFabOpen);
+            mRecorderFab.startAnimation(mFabOpen);
+            mDocumentFab.startAnimation(mFabOpen);
+            mPhotoFab.startAnimation(mFabOpen);
+
+            mCameraFab.setClickable(true);
+            mRecorderFab.setClickable(true);
+            mDocumentFab.setClickable(true);
+            mPhotoFab.setClickable(true);
+
+            mIsFabOpen = true;
+        }
     }
 
     /**
@@ -185,13 +251,13 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
                             String memoryId = uploadMemoryToDatabase(downloadUrl_String);
                             //Using memory id and download url upload episode into database
                             uploadEpisodeToDatabase(memoryId, downloadUrl_String);
-
                             Log.i(TAG, "uploadEpisodeToFirebaseStorage; uploadTask onSuccess; " + downloadUrl_String);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "uploadEpisodeToFirebaseStorage; uploadTask onFailure", Toast.LENGTH_LONG).show();
                             Log.e(TAG, "uploadEpisodeToFirebaseStorage; uploadTask onFailure; " + e.getMessage());
                         }
                     });
@@ -318,9 +384,6 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
         else Log.e(TAG, "onConnectionFailed. No solution found. " + connectionResult.getErrorMessage());
     }
 
-    protected void animateFloatingActionButton() {
-    }
-
     @Override
     public void onResume(){
         super.onResume();
@@ -331,5 +394,11 @@ public class BaseFragment extends Fragment implements GoogleApiClient.Connection
     public void onPause(){
         super.onPause();
         if (mGoogleApiClient.isConnected()) mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCurrentAdapter.cleanup();
     }
 }

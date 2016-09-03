@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+
 import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.pojo.Memory;
@@ -19,11 +22,6 @@ import pause.sip.younsukkoh.pause.utility.Constants;
 public class MyRoomFragment extends BaseFragment {
 
     private static final String TAG = MyRoomFragment.class.getSimpleName();
-
-    private RecyclerView mRecyclerView;
-    private MemoryAdapter mMemoryAdapter;
-
-    private FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mDocumentFab, mPhotoFab;
 
     /**
      * Initialize MyRoomFragment
@@ -43,15 +41,22 @@ public class MyRoomFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Database reference for current ROOM
-        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail);
     }
+
+    /**
+     * @return DatabaseReference for My Room
+     */
+    @Override
+    protected DatabaseReference setUpCurrentDatabaseRef() {
+        return mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_room_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view);
+        setUpRecyclerView(view, R.id.mrf_rv);
         return view;
     }
 
@@ -101,58 +106,11 @@ public class MyRoomFragment extends BaseFragment {
     }
 
     /**
-     * Set up recycler view for memories
-     */
-    private void setUpRecyclerView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.mrf_rv);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mMemoryAdapter = new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail, getActivity());
-        mRecyclerView.setAdapter(mMemoryAdapter);
-    }
-
-    /**
-     * Animate floating action button to the right or left depending on its current position
+     * @return MemoryAdapter that lists Memory
      */
     @Override
-    protected void animateFloatingActionButton() {
-        if (mIsFabOpen) {
-            mMainFab.startAnimation(mRotateBackward);
-
-            mCameraFab.startAnimation(mFabClose);
-            mRecorderFab.startAnimation(mFabClose);
-            mDocumentFab.startAnimation(mFabClose);
-            mPhotoFab.startAnimation(mFabClose);
-
-            mCameraFab.setClickable(false);
-            mRecorderFab.setClickable(false);
-            mDocumentFab.setClickable(false);
-            mPhotoFab.setClickable(false);
-
-            mIsFabOpen = false;
-        }
-        else {
-            mMainFab.startAnimation(mRotateForward);
-
-            mCameraFab.startAnimation(mFabOpen);
-            mRecorderFab.startAnimation(mFabOpen);
-            mDocumentFab.startAnimation(mFabOpen);
-            mPhotoFab.startAnimation(mFabOpen);
-
-            mCameraFab.setClickable(true);
-            mRecorderFab.setClickable(true);
-            mDocumentFab.setClickable(true);
-            mPhotoFab.setClickable(true);
-
-            mIsFabOpen = true;
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMemoryAdapter.cleanup();
+    protected FirebaseRecyclerAdapter createRecyclerAdapter() {
+        return new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail, getActivity());
     }
 
 }

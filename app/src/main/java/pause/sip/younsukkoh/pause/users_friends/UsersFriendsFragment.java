@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.pojo.User;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
@@ -29,16 +31,11 @@ import pause.sip.younsukkoh.pause.utility.Utility;
 /**
  * Created by Younsuk on 8/12/2016.
  */
-public class UsersFriendsFragment extends Fragment {
+public class UsersFriendsFragment extends BaseFragment {
 
     private static final String TAG = UsersFriendsFragment.class.getSimpleName();
 
-    private DatabaseReference mUsersFriendsDatabaseRef;
-    private String mUserEncodedEmail;
-    private RecyclerView mRecyclerView;
-    private FriendsAdapter mFriendsAdapter;
     private TextView mNoFriendsTextView;
-
     private SearchView mSearchView;
     private ValueEventListener mValueEventListener;
     private ToggleButton mSearchForFriendsSwitch, mSearchForUsersSwitch;
@@ -61,28 +58,25 @@ public class UsersFriendsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
-        mUsersFriendsDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_FRIENDS_ + mUserEncodedEmail);
+    }
+
+    @Override
+    protected DatabaseReference setUpCurrentDatabaseRef() {
+        return mMainDatabaseRef.child(Constants.USERS_FRIENDS_ + mUserEncodedEmail);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.users_friends_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view);
+        setUpRecyclerView(view, R.id.uff_rv);
         return view;
     }
 
-    private void setUpRecyclerView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.uff_rv);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    @Override
+    protected void setUpUI(View view) {
+        super.setUpUI(view);
 
-        mFriendsAdapter = new FriendsAdapter(User.class, R.layout.friends_view_holder, FriendViewHolder.class, mUsersFriendsDatabaseRef, mUserEncodedEmail);
-        mRecyclerView.setAdapter(mFriendsAdapter);
-    }
-
-    private void setUpUI(View view) {
         mNoFriendsTextView = (TextView) view.findViewById(R.id.uff_tv_noFriends);
         mValueEventListener = new ValueEventListener() {
             @Override
@@ -171,16 +165,25 @@ public class UsersFriendsFragment extends Fragment {
     }
 
     @Override
+    protected FirebaseRecyclerAdapter createRecyclerAdapter() {
+        return new FriendsAdapter(User.class, R.layout.friends_view_holder, FriendViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail);
+    }
+
+    @Override
+    protected void animateFloatingActionButton() {
+        return;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        mUsersFriendsDatabaseRef.addValueEventListener(mValueEventListener);
+        mCurrentDatabaseRef.addValueEventListener(mValueEventListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mUsersFriendsDatabaseRef.removeEventListener(mValueEventListener);
+        mCurrentDatabaseRef.removeEventListener(mValueEventListener);
     }
-
 
 }

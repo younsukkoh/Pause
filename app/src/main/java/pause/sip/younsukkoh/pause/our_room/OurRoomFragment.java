@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DatabaseReference;
 
@@ -30,11 +31,6 @@ public class OurRoomFragment extends BaseFragment {
     private static final String TAG = OurRoomFragment.class.getSimpleName();
 
     private String mRoomId;
-
-    private RecyclerView mRecyclerView;
-    private MemoryAdapter mMemoryAdapter;
-    private FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mDocumentFab, mPhotoFab;
-
     /**
      * Initialize MyRoomFragment
      * @param roomId pass on current user's encoded email
@@ -55,15 +51,23 @@ public class OurRoomFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
-        //Database reference for current ROOM
-        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId);
+        Log.i(Constants.TAG_DEBUG, TAG + " " + mRoomId);
     }
+
+    /**
+     * @return DatabaseReference for Current Room
+     */
+    @Override
+    protected DatabaseReference setUpCurrentDatabaseRef() {
+        return mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_room_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view);
+        setUpRecyclerView(view, R.id.mrf_rv); //OurRoomFragment and MyRoomFragment share the same layout
         return view;
     }
 
@@ -112,16 +116,9 @@ public class OurRoomFragment extends BaseFragment {
         });
     }
 
-    /**
-     * Set up recycler view for memories
-     */
-    private void setUpRecyclerView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.mrf_rv);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mMemoryAdapter = new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail, getActivity());
-        mRecyclerView.setAdapter(mMemoryAdapter);
+    @Override
+    protected FirebaseRecyclerAdapter createRecyclerAdapter() {
+        return new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail, getActivity());
     }
 
     /**
@@ -138,46 +135,4 @@ public class OurRoomFragment extends BaseFragment {
         episodeRef.setValue(episode);
     }
 
-    /**
-     * Animate floating action button to the right or left depending on its current position
-     */
-    @Override
-    protected void animateFloatingActionButton() {
-        if (mIsFabOpen) {
-            mMainFab.startAnimation(mRotateBackward);
-
-            mCameraFab.startAnimation(mFabClose);
-            mRecorderFab.startAnimation(mFabClose);
-            mDocumentFab.startAnimation(mFabClose);
-            mPhotoFab.startAnimation(mFabClose);
-
-            mCameraFab.setClickable(false);
-            mRecorderFab.setClickable(false);
-            mDocumentFab.setClickable(false);
-            mPhotoFab.setClickable(false);
-
-            mIsFabOpen = false;
-        }
-        else {
-            mMainFab.startAnimation(mRotateForward);
-
-            mCameraFab.startAnimation(mFabOpen);
-            mRecorderFab.startAnimation(mFabOpen);
-            mDocumentFab.startAnimation(mFabOpen);
-            mPhotoFab.startAnimation(mFabOpen);
-
-            mCameraFab.setClickable(true);
-            mRecorderFab.setClickable(true);
-            mDocumentFab.setClickable(true);
-            mPhotoFab.setClickable(true);
-
-            mIsFabOpen = true;
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMemoryAdapter.cleanup();
-    }
 }

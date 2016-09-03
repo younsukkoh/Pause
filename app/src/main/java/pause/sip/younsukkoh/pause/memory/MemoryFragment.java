@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,11 +33,6 @@ public class MemoryFragment extends BaseFragment {
 
     private String mMemoryId;
 
-    private RecyclerView mRecyclerView;
-    private EpisodeAdapter mEpisodeAdapter;
-
-    private FloatingActionButton mMainFab, mCameraFab, mRecorderFab, mDocumentFab, mPhotoFab;
-
     /**
      * Initialize Memory Fragment
      * @param memoryId pass on current user memory's id
@@ -56,17 +52,20 @@ public class MemoryFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
-        //Database reference for current MEMORY
-        mCurrentDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId);
     }
+
+    @Override
+    protected DatabaseReference setUpCurrentDatabaseRef() {
+        return mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.memory_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view);
+        setUpRecyclerView(view, R.id.mf_rv);
         return view;
     }
 
@@ -115,53 +114,9 @@ public class MemoryFragment extends BaseFragment {
         });
     }
 
-    /**
-     * Set up recycler view for episodes
-     */
-    private void setUpRecyclerView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.mf_rv);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-
-        mEpisodeAdapter = new EpisodeAdapter(Episode.class, R.layout.episode_view_holder, EpisodeViewHolder.class, mCurrentDatabaseRef);
-        mRecyclerView.setAdapter(mEpisodeAdapter);
-    }
-
-    /**
-     * Animate floating action button to the right or left depending on its current position
-     */
     @Override
-    protected void animateFloatingActionButton() {
-        if (mIsFabOpen) {
-            mMainFab.startAnimation(mRotateBackward);
-
-            mCameraFab.startAnimation(mFabClose);
-            mRecorderFab.startAnimation(mFabClose);
-            mDocumentFab.startAnimation(mFabClose);
-            mPhotoFab.startAnimation(mFabClose);
-
-            mCameraFab.setClickable(false);
-            mRecorderFab.setClickable(false);
-            mDocumentFab.setClickable(false);
-            mPhotoFab.setClickable(false);
-
-            mIsFabOpen = false;
-        }
-        else {
-            mMainFab.startAnimation(mRotateForward);
-
-            mCameraFab.startAnimation(mFabOpen);
-            mRecorderFab.startAnimation(mFabOpen);
-            mDocumentFab.startAnimation(mFabOpen);
-            mPhotoFab.startAnimation(mFabOpen);
-
-            mCameraFab.setClickable(true);
-            mRecorderFab.setClickable(true);
-            mDocumentFab.setClickable(true);
-            mPhotoFab.setClickable(true);
-
-            mIsFabOpen = true;
-        }
+    protected FirebaseRecyclerAdapter createRecyclerAdapter() {
+        return new EpisodeAdapter(Episode.class, R.layout.episode_view_holder, EpisodeViewHolder.class, mCurrentDatabaseRef);
     }
 
     /**
@@ -215,9 +170,4 @@ public class MemoryFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mEpisodeAdapter.cleanup();
-    }
 }
