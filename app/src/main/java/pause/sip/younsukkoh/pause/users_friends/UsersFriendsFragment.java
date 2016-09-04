@@ -69,14 +69,12 @@ public class UsersFriendsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.users_friends_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view, R.id.uff_rv);
+        setUpRecyclerView(view, R.id.uff_rv, new LinearLayoutManager(getActivity()));
         return view;
     }
 
     @Override
     protected void setUpUI(View view) {
-        super.setUpUI(view);
-
         mNoFriendsTextView = (TextView) view.findViewById(R.id.uff_tv_noFriends);
         mValueEventListener = new ValueEventListener() {
             @Override
@@ -167,11 +165,6 @@ public class UsersFriendsFragment extends BaseFragment {
     @Override
     protected FirebaseRecyclerAdapter createRecyclerAdapter() {
         return new FriendsAdapter(User.class, R.layout.friends_view_holder, FriendViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail);
-    }
-
-    @Override
-    protected void animateFloatingActionButton() {
-        return;
     }
 
     @Override

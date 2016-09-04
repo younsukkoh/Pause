@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.basis.BaseFragment_AddContent;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
@@ -27,7 +28,7 @@ import pause.sip.younsukkoh.pause.utility.Constants;
 /**
  * Created by Younsuk on 8/19/2016.
  */
-public class MemoryFragment extends BaseFragment {
+public class MemoryFragment extends BaseFragment_AddContent {
 
     private static final String TAG = MemoryFragment.class.getSimpleName();
 
@@ -38,10 +39,11 @@ public class MemoryFragment extends BaseFragment {
      * @param memoryId pass on current user memory's id
      * @return
      */
-    public static MemoryFragment newInstance(String userEncodedEmail, String memoryId) {
+    public static MemoryFragment newInstance(String userEncodedEmail, String roomId, String memoryId) {
         Bundle args = new Bundle();
-        args.putString(Constants.ARG_MEMORY_ID, memoryId);
         args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_ROOM_ID, roomId);
+        args.putString(Constants.ARG_MEMORY_ID, memoryId);
 
         MemoryFragment fragment = new MemoryFragment();
         fragment.setArguments(args);
@@ -52,12 +54,17 @@ public class MemoryFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
     }
 
     @Override
     protected DatabaseReference setUpCurrentDatabaseRef() {
-        return mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId);
+        mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
+        mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
+
+        Log.i(Constants.TAG_DEBUG, TAG + " " + mRoomId + " " + mMemoryId);
+
+        if (mRoomId.equals(mUserEncodedEmail)) return mMainDatabaseRef.child(Constants.MY_ROOM_ + mRoomId + Constants.UNDERSCORE + mMemoryId);
+        else return mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId + Constants.UNDERSCORE + mMemoryId);
     }
 
 
@@ -65,7 +72,7 @@ public class MemoryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.memory_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view, R.id.mf_rv);
+        setUpRecyclerView(view, R.id.mf_rv, new GridLayoutManager(getActivity(), 3));
         return view;
     }
 
@@ -113,6 +120,8 @@ public class MemoryFragment extends BaseFragment {
             }
         });
     }
+
+
 
     @Override
     protected FirebaseRecyclerAdapter createRecyclerAdapter() {

@@ -3,6 +3,7 @@ package pause.sip.younsukkoh.pause.memory;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import pause.sip.younsukkoh.pause.basis.SingleFragmentActivity;
 import pause.sip.younsukkoh.pause.utility.Constants;
@@ -17,9 +18,10 @@ public class MemoryActivity extends SingleFragmentActivity {
     /**
      * Initialize MemoryActivity which in turn starts Memory Fragment
      */
-    public static Intent newIntent(Context context, String userEncodedEmail, String memoryId){
+    public static Intent newIntent(Context context, String userEncodedEmail, String roomId, String memoryId){
         Intent intent = new Intent(context, MemoryActivity.class);
         intent.putExtra(Constants.EXTRA_USER_ENCODED_EMAIL, userEncodedEmail);
+        intent.putExtra(Constants.EXTRA_ROOM_ID, roomId);
         intent.putExtra(Constants.EXTRA_MEMORY_ID, memoryId);
 
         return intent;
@@ -27,6 +29,10 @@ public class MemoryActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return MemoryFragment.newInstance(getIntent().getStringExtra(Constants.EXTRA_USER_ENCODED_EMAIL), getIntent().getStringExtra(Constants.EXTRA_MEMORY_ID));
+        return MemoryFragment.newInstance(
+                getIntent().getStringExtra(Constants.EXTRA_USER_ENCODED_EMAIL),
+                getIntent().getStringExtra(Constants.EXTRA_ROOM_ID),
+                getIntent().getStringExtra(Constants.EXTRA_MEMORY_ID)
+        );
     }
 }

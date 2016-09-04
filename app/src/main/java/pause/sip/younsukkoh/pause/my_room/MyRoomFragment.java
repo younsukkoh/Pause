@@ -13,13 +13,14 @@ import com.google.firebase.database.DatabaseReference;
 
 import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.basis.BaseFragment_AddContent;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**
  * Created by Younsuk on 8/5/2016.
  */
-public class MyRoomFragment extends BaseFragment {
+public class MyRoomFragment extends BaseFragment_AddContent {
 
     private static final String TAG = MyRoomFragment.class.getSimpleName();
 
@@ -48,6 +49,7 @@ public class MyRoomFragment extends BaseFragment {
      */
     @Override
     protected DatabaseReference setUpCurrentDatabaseRef() {
+        mRoomId = mUserEncodedEmail;
         return mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail);
     }
 
@@ -56,10 +58,11 @@ public class MyRoomFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_room_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view, R.id.mrf_rv);
+        setUpRecyclerView(view, R.id.mrf_rv, new LinearLayoutManager(getActivity()));
         return view;
     }
 
+    @Override
     protected void setUpUI(View view) {
         super.setUpUI(view);
 
@@ -110,7 +113,7 @@ public class MyRoomFragment extends BaseFragment {
      */
     @Override
     protected FirebaseRecyclerAdapter createRecyclerAdapter() {
-        return new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail, getActivity());
+        return new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, getActivity(), mUserEncodedEmail, mRoomId);
     }
 
 }

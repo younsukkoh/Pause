@@ -17,6 +17,7 @@ import java.util.Date;
 
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.basis.BaseFragment;
+import pause.sip.younsukkoh.pause.basis.BaseFragment_AddContent;
 import pause.sip.younsukkoh.pause.my_room.MemoryAdapter;
 import pause.sip.younsukkoh.pause.my_room.MemoryViewHolder;
 import pause.sip.younsukkoh.pause.pojo.Episode;
@@ -26,11 +27,10 @@ import pause.sip.younsukkoh.pause.utility.Constants;
 /**
  * Created by Younsuk on 9/1/2016.
  */
-public class OurRoomFragment extends BaseFragment {
+public class OurRoomFragment extends BaseFragment_AddContent {
 
     private static final String TAG = OurRoomFragment.class.getSimpleName();
 
-    private String mRoomId;
     /**
      * Initialize MyRoomFragment
      * @param roomId pass on current user's encoded email
@@ -50,8 +50,6 @@ public class OurRoomFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
-        Log.i(Constants.TAG_DEBUG, TAG + " " + mRoomId);
     }
 
     /**
@@ -59,15 +57,15 @@ public class OurRoomFragment extends BaseFragment {
      */
     @Override
     protected DatabaseReference setUpCurrentDatabaseRef() {
+        mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
         return mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_room_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view, R.id.mrf_rv); //OurRoomFragment and MyRoomFragment share the same layout
+        setUpRecyclerView(view, R.id.mrf_rv, new LinearLayoutManager(getActivity())); //OurRoomFragment and MyRoomFragment share the same layout
         return view;
     }
 
@@ -118,21 +116,22 @@ public class OurRoomFragment extends BaseFragment {
 
     @Override
     protected FirebaseRecyclerAdapter createRecyclerAdapter() {
-        return new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail, getActivity());
+        return new MemoryAdapter(Memory.class, R.layout.memory_view_holder, MemoryViewHolder.class, mCurrentDatabaseRef, getActivity(), mUserEncodedEmail, mRoomId);
     }
 
     /**
      * Store the episode into database
      */
+    @Override
     protected void uploadEpisodeToDatabase(String memoryId, String downloadUrl) {
         Log.i(TAG, "uploadEpisodeToDatabase");
-
-        DatabaseReference ourRoomRef_room_timeUpdated = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mUserEncodedEmail).child(mRoomId).child(Constants.TIME_UPDATED);
-        ourRoomRef_room_timeUpdated.setValue(new Date().getTime());
 
         DatabaseReference episodeRef = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId + Constants.UNDERSCORE + memoryId).push();
         Episode episode = new Episode(episodeRef.getKey(), downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
         episodeRef.setValue(episode);
+
+        DatabaseReference ourRoomRef_room_timeUpdated = mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mUserEncodedEmail).child(mRoomId).child(Constants.TIME_UPDATED);
+        ourRoomRef_room_timeUpdated.setValue(new Date().getTime());
     }
 
 }

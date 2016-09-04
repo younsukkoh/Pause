@@ -25,6 +25,5 @@ public class RoomAdapter extends FirebaseRecyclerAdapter<Room, RoomViewHolder> {
     @Override
     protected void populateViewHolder(RoomViewHolder viewHolder, Room room, int position) {
         viewHolder.bindRoom(mUserEncodedEmail, room);
-        Log.i(Constants.TAG_DEBUG, TAG + " " + room.getRoomId());
     }
 }

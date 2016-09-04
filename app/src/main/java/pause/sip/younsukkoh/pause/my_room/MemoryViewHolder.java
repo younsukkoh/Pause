@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,9 +33,11 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
     private static final String TAG = MemoryViewHolder.class.getSimpleName();
 
     private View mItemView;
-    private String mUserEncodedEmail;
-    private Memory mMemory;
     private Context mContext;
+    private String mUserEncodedEmail;
+    private String mRoomId;
+
+    private Memory mMemory;
     private Activity mActivity;
 
     //UI Layout
@@ -82,11 +85,12 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
      * @param memory
      * @param userEncodedEmail
      */
-    public void bindMemory(Memory memory, String userEncodedEmail, Context context) {
+    public void bindMemory(Memory memory, Context context, String userEncodedEmail, String roomId) {
         mMemory = memory;
-        mUserEncodedEmail = userEncodedEmail;
         mContext = context;
         mActivity = (Activity) mContext;
+        mUserEncodedEmail = userEncodedEmail;
+        mRoomId = roomId;
 
         String title = memory.getTitle();
         if (title == null) mTitleTextView.setText(R.string.no_title);
@@ -128,7 +132,8 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
 
     @Override
     public void onClick(View view) {
-        Intent intent = MemoryActivity.newIntent(mActivity, mUserEncodedEmail, mMemory.getMemoryId());
+        Log.i(Constants.TAG_DEBUG, TAG + " " + mRoomId + " " );
+        Intent intent = MemoryActivity.newIntent(mActivity, mUserEncodedEmail, mRoomId, mMemory.getMemoryId());
         mActivity.startActivity(intent);
     }
 

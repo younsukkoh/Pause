@@ -36,6 +36,7 @@ public class OurRoomsFragment extends BaseFragment {
     private static final String TAG = OurRoomsFragment.class.getSimpleName();
 
     private String mUserDecodedEmail;
+    private FloatingActionButton mMainFab;
 
     /**
      * Initialize OurRoomsFragment
@@ -67,15 +68,12 @@ public class OurRoomsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.our_rooms_fragment, container, false);
         setUpUI(view);
-        setUpRecyclerView(view, R.id.orf_rv);
+        setUpRecyclerView(view, R.id.orf_rv, new LinearLayoutManager(getActivity()));
         return view;
     }
 
-    /**
-     * Set up user interface
-     */
+    @Override
     protected void setUpUI(View view) {
-        super.setUpUI(view);
         mMainFab = (FloatingActionButton) view.findViewById(R.id.orf_fab_addRoom);
         mMainFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,11 +92,6 @@ public class OurRoomsFragment extends BaseFragment {
     @Override
     protected FirebaseRecyclerAdapter createRecyclerAdapter() {
         return new RoomAdapter(Room.class, R.layout.room_view_holder, RoomViewHolder.class, mCurrentDatabaseRef, mUserEncodedEmail);
-    }
-
-    @Override
-    protected void animateFloatingActionButton() {
-        return;
     }
 
     @Override

@@ -19,7 +19,6 @@ public final class Constants {
     public static final String USERS_FRIENDS_ = "users_friends_";
     public static final String MY_ROOM_ = "my_room_";
     public static final String OUR_ROOMS_ = "our_rooms_";
-    public static final String OUR_ROOM_ = "our_room_";
     public static final String LIST = "list";
 
     //Firebase Storage Reference Points

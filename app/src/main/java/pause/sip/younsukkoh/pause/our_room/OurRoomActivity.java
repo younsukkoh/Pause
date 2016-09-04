@@ -24,13 +24,14 @@ public class OurRoomActivity extends SingleFragmentActivity {
         intent.putExtra(Constants.EXTRA_USER_ENCODED_EMAIL, userEncodedEmail);
         intent.putExtra(Constants.EXTRA_ROOM_ID, roomId);
 
-        Log.i(Constants.TAG_DEBUG, TAG + " " + roomId);
-
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
-        return OurRoomFragment.newInstance(getIntent().getStringExtra(Constants.EXTRA_USER_ENCODED_EMAIL), getIntent().getStringExtra(Constants.EXTRA_ROOM_ID));
+        return OurRoomFragment.newInstance(
+                getIntent().getStringExtra(Constants.EXTRA_USER_ENCODED_EMAIL),
+                getIntent().getStringExtra(Constants.EXTRA_ROOM_ID)
+        );
     }
 }
