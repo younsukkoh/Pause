@@ -1,25 +1,22 @@
-package pause.sip.younsukkoh.pause.our_room;
+package pause.sip.younsukkoh.pause.room.our_room;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.Date;
 
 import pause.sip.younsukkoh.pause.R;
-import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.basis.BaseFragment_AddContent;
-import pause.sip.younsukkoh.pause.my_room.MemoryAdapter;
-import pause.sip.younsukkoh.pause.my_room.MemoryViewHolder;
+import pause.sip.younsukkoh.pause.room.MemoryAdapter;
+import pause.sip.younsukkoh.pause.room.MemoryViewHolder;
 import pause.sip.younsukkoh.pause.pojo.Episode;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;

@@ -1,9 +1,8 @@
-package pause.sip.younsukkoh.pause.my_room;
+package pause.sip.younsukkoh.pause.room.my_room;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,11 @@ import android.view.ViewGroup;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 
-import pause.sip.younsukkoh.pause.basis.BaseFragment;
 import pause.sip.younsukkoh.pause.R;
 import pause.sip.younsukkoh.pause.basis.BaseFragment_AddContent;
 import pause.sip.younsukkoh.pause.pojo.Memory;
+import pause.sip.younsukkoh.pause.room.MemoryAdapter;
+import pause.sip.younsukkoh.pause.room.MemoryViewHolder;
 import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**

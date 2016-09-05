@@ -1,12 +1,9 @@
-package pause.sip.younsukkoh.pause.my_room;
+package pause.sip.younsukkoh.pause.room;
 
 import android.content.Context;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-
-import java.security.PrivateKey;
 
 import pause.sip.younsukkoh.pause.pojo.Memory;
 

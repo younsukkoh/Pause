@@ -1,7 +1,8 @@
-package pause.sip.younsukkoh.pause.my_room;
+package pause.sip.younsukkoh.pause.room;
 
 import android.Manifest;
-import android.app.DialogFragment;
+
+
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -16,6 +17,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,11 +69,11 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
 
     private static String TAG = AddEpisodeDialogFragment.class.getSimpleName();
 
-    private String mUserEncodedEmail, mMemoryId;
+    private String mUserEncodedEmail, mRoomId, mMemoryId;
     private File mImageFile;
     private ImageButton mCameraButton, mRecorderButton, mDocumentButton, mPhotoButton;
     private Button mCancelButton;
-    private DatabaseReference mMainDatabaseRef;
+    private DatabaseReference mUpdateMemoryDatabaseRef, mNewEpisodeDatabaseRef;
 
     //Where
     protected GoogleApiClient mGoogleApiClient;
@@ -81,9 +84,10 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
     /**
      * Initialize My Memory Dialog Fragment
      */
-    public static AddEpisodeDialogFragment newInstance(String userEncodedEmail, String memoryId) {
+    public static AddEpisodeDialogFragment newInstance(String userEncodedEmail, String roomId, String memoryId) {
         Bundle args = new Bundle();
         args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_ROOM_ID, roomId);
         args.putString(Constants.ARG_MEMORY_ID, memoryId);
 
         AddEpisodeDialogFragment fragment = new AddEpisodeDialogFragment();
@@ -96,9 +100,17 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
+        mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
 
-        mMainDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        if (mUserEncodedEmail.equals(mRoomId)) {
+            mUpdateMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.MY_ROOM_ + mRoomId).child(mMemoryId); //MyRoomFragment
+            mNewEpisodeDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.MY_ROOM_ + mRoomId + Constants.UNDERSCORE + mMemoryId).push(); //MyRoomFragment
+        }
+        else {
+            mUpdateMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + mRoomId).child(mMemoryId); //OurRoomFragment
+            mNewEpisodeDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + mRoomId + Constants.UNDERSCORE + mMemoryId).push(); //OurRoomFragment
+        }
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this) //As connection happens, the latitude, the longitude and the location will be setup.
@@ -265,9 +277,9 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
     private void uploadEpisodeToDatabase(final String newEpisode) {
         Log.i(TAG, "uploadEpisodeToDatabase");
 
-        //Update my_room_EMAIL
-        final DatabaseReference myMemoryDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail).child(mMemoryId);
-        myMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Update EpisodeDatabaseRef
+        final DatabaseReference databaseRef = mUpdateMemoryDatabaseRef;
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
@@ -284,9 +296,9 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
                 updatedMemoryInfo.put(Constants.EPISODES, updatedEpisodes);
                 updatedMemoryInfo.put(Constants.NUMBER_OF_EPISODES, updatedNumberOfEpisodes);
 
-                myMemoryDatabaseRef.updateChildren(updatedMemoryInfo);
+                databaseRef.updateChildren(updatedMemoryInfo);
 
-                myMemoryDatabaseRef.removeEventListener(this);
+                databaseRef.removeEventListener(this);
             }
 
             @Override
@@ -295,10 +307,8 @@ public class AddEpisodeDialogFragment extends DialogFragment implements GoogleAp
             }
         });
 
-        //Add episode to current memory
-        DatabaseReference episodeDatabaseRef = mMainDatabaseRef.child(Constants.MY_ROOM_ + mUserEncodedEmail + Constants.UNDERSCORE + mMemoryId).push();
-        Episode episode = new Episode(episodeDatabaseRef.getKey() ,newEpisode, new Date().getTime(), mLocation, mLongitude, mLatitude);
-        episodeDatabaseRef.setValue(episode);
+        Episode episode = new Episode(mNewEpisodeDatabaseRef.getKey() ,newEpisode, new Date().getTime(), mLocation, mLongitude, mLatitude);
+        mNewEpisodeDatabaseRef.setValue(episode);
 
         dismiss();
     }

@@ -61,8 +61,6 @@ public class MemoryFragment extends BaseFragment_AddContent {
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
         mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
 
-        Log.i(Constants.TAG_DEBUG, TAG + " " + mRoomId + " " + mMemoryId);
-
         if (mRoomId.equals(mUserEncodedEmail)) return mMainDatabaseRef.child(Constants.MY_ROOM_ + mRoomId + Constants.UNDERSCORE + mMemoryId);
         else return mMainDatabaseRef.child(Constants.OUR_ROOMS_ + mRoomId + Constants.UNDERSCORE + mMemoryId);
     }

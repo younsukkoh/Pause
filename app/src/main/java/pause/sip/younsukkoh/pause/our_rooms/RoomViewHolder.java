@@ -2,16 +2,13 @@ package pause.sip.younsukkoh.pause.our_rooms;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import pause.sip.younsukkoh.pause.R;
-import pause.sip.younsukkoh.pause.my_room.MyRoomFragment;
-import pause.sip.younsukkoh.pause.our_room.OurRoomActivity;
-import pause.sip.younsukkoh.pause.our_room.OurRoomFragment;
+import pause.sip.younsukkoh.pause.room.our_room.OurRoomActivity;
 import pause.sip.younsukkoh.pause.pojo.Room;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;

@@ -25,7 +25,7 @@
 
         <activity android:name=".memory.MemoryActivity"/>
 
-        <activity android:name=".our_room.OurRoomActivity" />
+        <activity android:name=".room.our_room.OurRoomActivity" />
 
         <activity android:name=".image.ImageActivity" android:theme="@style/AppThemeNoActionBar"/>
 

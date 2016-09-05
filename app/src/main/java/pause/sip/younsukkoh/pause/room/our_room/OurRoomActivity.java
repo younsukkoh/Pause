@@ -1,12 +1,10 @@
-package pause.sip.younsukkoh.pause.our_room;
+package pause.sip.younsukkoh.pause.room.our_room;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import pause.sip.younsukkoh.pause.basis.SingleFragmentActivity;
-import pause.sip.younsukkoh.pause.my_room.MyRoomFragment;
 import pause.sip.younsukkoh.pause.utility.Constants;
 
 /**

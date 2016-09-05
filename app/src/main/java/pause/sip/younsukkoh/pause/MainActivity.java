@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import pause.sip.younsukkoh.pause.basis.BaseActivity;
-import pause.sip.younsukkoh.pause.my_room.MyRoomFragment;
+import pause.sip.younsukkoh.pause.room.my_room.MyRoomFragment;
 import pause.sip.younsukkoh.pause.our_rooms.OurRoomsFragment;
 import pause.sip.younsukkoh.pause.settings.SettingsFragment;
 import pause.sip.younsukkoh.pause.users_friends.UsersFriendsFragment;

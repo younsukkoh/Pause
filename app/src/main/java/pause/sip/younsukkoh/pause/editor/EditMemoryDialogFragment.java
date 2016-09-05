@@ -2,11 +2,15 @@ package pause.sip.younsukkoh.pause.editor;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
+
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import pause.sip.younsukkoh.pause.R;
+import pause.sip.younsukkoh.pause.our_rooms.add_room.AddRoomDialogFragment;
 import pause.sip.younsukkoh.pause.pojo.Memory;
 import pause.sip.younsukkoh.pause.utility.Constants;
 import pause.sip.younsukkoh.pause.utility.Utility;
@@ -44,10 +49,8 @@ public class EditMemoryDialogFragment extends DialogFragment {
     private static final String TAG = EditMemoryDialogFragment.class.getSimpleName();
 
     private Memory mMemory;
-    private String mUserEncodedEmail;
-    private String mMemoryId;
+    private String mUserEncodedEmail, mRoomId, mMemoryId;
     private DatabaseReference mMemoryDatabaseRef;
-    private ValueEventListener mMemoryValueEventListener;
 
     private EditText mTitleEditText, mLocationEditText, mDescriptionEditText;
     private Button mPeopleButton, mDateTimeButton;
@@ -56,10 +59,11 @@ public class EditMemoryDialogFragment extends DialogFragment {
     /**
      * Initialize Edit Memory Dialog Fragment
      */
-    public static EditMemoryDialogFragment newInstance(String userEncodedEmail, String memoryId) {
+    public static EditMemoryDialogFragment newInstance(String userEncodedEmail,String roomId, String memoryId) {
         Bundle args = new Bundle();
-        args.putString(Constants.ARG_MEMORY_ID, memoryId);
         args.putString(Constants.ARG_USER_ENCODED_EMAIL, userEncodedEmail);
+        args.putString(Constants.ARG_ROOM_ID, roomId);
+        args.putString(Constants.ARG_MEMORY_ID, memoryId);
 
         EditMemoryDialogFragment fragment = new EditMemoryDialogFragment();
         fragment.setArguments(args);
@@ -71,8 +75,11 @@ public class EditMemoryDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserEncodedEmail = getArguments().getString(Constants.ARG_USER_ENCODED_EMAIL);
+        mRoomId = getArguments().getString(Constants.ARG_ROOM_ID);
         mMemoryId = getArguments().getString(Constants.ARG_MEMORY_ID);
-        mMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.MY_ROOM_ + mUserEncodedEmail).child(mMemoryId);
+
+        if (mUserEncodedEmail.equals(mRoomId)) mMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.MY_ROOM_ + mRoomId).child(mMemoryId);
+        else mMemoryDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constants.OUR_ROOMS_ + mRoomId).child(mMemoryId);
 
         mMemoryDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -118,6 +125,9 @@ public class EditMemoryDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 //TODO Add friends once the function to add friend goes online
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                AddRoomDialogFragment addRoomDialogFragment = AddRoomDialogFragment.newInstance(mUserEncodedEmail);
+                addRoomDialogFragment.show(fm, TAG);
             }
         });
 
@@ -126,7 +136,7 @@ public class EditMemoryDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 long dateTime = parseTextToLong(mDateTimeButton.getText().toString());
-                FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 EditDateTimeDialogFragment editDateTimeDialogFragment = EditDateTimeDialogFragment.newInstance(dateTime);
                 editDateTimeDialogFragment.setTargetFragment(EditMemoryDialogFragment.this, Constants.REQUEST_TARGET_EMDF);
                 editDateTimeDialogFragment.show(fm, TAG);
@@ -139,7 +149,6 @@ public class EditMemoryDialogFragment extends DialogFragment {
         mLocationImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO mMemory getLatitude is not returning full double only the integer part
                 launchPlacePicker(mMemory.getLatitude(), mMemory.getLongitude());
             }
         });
