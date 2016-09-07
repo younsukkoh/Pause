@@ -22,11 +22,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/people"/>
-    <Button
-        android:id="@+id/emf_b_people"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/emf_b_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"/>
+    </HorizontalScrollView>
 
     <TextView
         android:layout_width="match_parent"

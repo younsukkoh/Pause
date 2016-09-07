@@ -1,13 +1,11 @@
 package pause.sip.younsukkoh.pause.room;
 
-import android.app.Activity;
-
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,7 +38,6 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
     private String mRoomId;
 
     private Memory mMemory;
-    private Activity mActivity;
 
     //UI Layout
     private TextView mTitleTextView, mPeopleTextView, mTimeTextView, mLocationTextView, mDescriptionTextView;
@@ -65,10 +62,9 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddEpisodeDialogFragment addEpisodeDialogFragment = AddEpisodeDialogFragment.newInstance(mUserEncodedEmail, mRoomId, mMemory.getMemoryId());
-//                FragmentManager fm = mActivity.getFragmentManager();
-//                android.support.v4.app.FragmentManager fm = ((FragmentActivity)mActivity).getSupportFragmentManager();
+                Log.i(Constants.TAG_DEBUG, "FUDGE X");
 
+                AddEpisodeDialogFragment addEpisodeDialogFragment = AddEpisodeDialogFragment.newInstance(mUserEncodedEmail, mRoomId, mMemory.getMemoryId());
                 android.support.v4.app.FragmentManager fm = ((FragmentActivity)mContext).getSupportFragmentManager();
                 addEpisodeDialogFragment.show(fm, TAG);
             }
@@ -80,7 +76,6 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
             public void onClick(View view) {
                 EditMemoryDialogFragment editMemoryDialogFragment = EditMemoryDialogFragment.newInstance(mUserEncodedEmail, mRoomId, mMemory.getMemoryId());
                 android.support.v4.app.FragmentManager fm = ((FragmentActivity)mContext).getSupportFragmentManager();
-//                FragmentManager fm = mActivity.getFragmentManager();
                 editMemoryDialogFragment.show(fm, TAG);
             }
         });
@@ -94,7 +89,6 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
     public void bindMemory(Memory memory, Context context, String userEncodedEmail, String roomId) {
         mMemory = memory;
         mContext = context;
-        mActivity = (Activity) mContext;
         mUserEncodedEmail = userEncodedEmail;
         mRoomId = roomId;
 
@@ -125,8 +119,8 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = ImageActivity.newIntent(mActivity, episodeUrl);
-                    mActivity.startActivity(intent);
+                    Intent intent = ImageActivity.newIntent(mContext, episodeUrl);
+                    mContext.startActivity(intent);
                 }
             });
         }
@@ -138,8 +132,8 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
 
     @Override
     public void onClick(View view) {
-        Intent intent = MemoryActivity.newIntent(mActivity, mUserEncodedEmail, mRoomId, mMemory.getMemoryId());
-        mActivity.startActivity(intent);
+        Intent intent = MemoryActivity.newIntent(mContext, mUserEncodedEmail, mRoomId, mMemory.getMemoryId());
+        mContext.startActivity(intent);
     }
 
     @Override

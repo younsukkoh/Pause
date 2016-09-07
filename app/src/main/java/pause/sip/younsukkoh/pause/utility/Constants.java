@@ -68,8 +68,9 @@ public final class Constants {
     public static final int REQUEST_PLACE_PICKER = 6;
 
     //REQUEST TARGET FRAGMENT
-    public static final int REQUEST_TARGET_EMDF = 8;
-    public static final int REQUEST_TARGET_ORF = 9;
+    public static final int REQUEST_TARGET_EMDF_DATE_TIME = 8;
+    public static final int REQUEST_TARGET_EMDF_PEOPLE = 9;
+    public static final int REQUEST_TARGET_ORF = 10;
 
     //Miscellaneous
     public static final String UNDERSCORE = "_";

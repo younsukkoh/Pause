@@ -246,7 +246,7 @@ public abstract class BaseFragment_AddContent extends BaseFragment implements Go
         String memoryId = databaseReference.getKey();
 
         //Latitude, longitude, and the location is obtained from onConnected
-        Memory memory = new Memory(memoryId, mUserEncodedEmail, downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
+        Memory memory = new Memory(memoryId, Utility.decodeEmail(mUserEncodedEmail), downloadUrl, new Date().getTime(), mLocation, mLongitude, mLatitude);
         databaseReference.setValue(memory);
 
         return memoryId;

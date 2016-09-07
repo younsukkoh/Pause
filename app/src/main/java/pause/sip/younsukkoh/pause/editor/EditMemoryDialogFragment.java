@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.SphericalUtil;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -124,9 +126,9 @@ public class EditMemoryDialogFragment extends DialogFragment {
         mPeopleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO Add friends once the function to add friend goes online
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 AddRoomDialogFragment addRoomDialogFragment = AddRoomDialogFragment.newInstance(mUserEncodedEmail);
+                addRoomDialogFragment.setTargetFragment(EditMemoryDialogFragment.this, Constants.REQUEST_TARGET_EMDF_PEOPLE);
                 addRoomDialogFragment.show(fm, TAG);
             }
         });
@@ -138,7 +140,7 @@ public class EditMemoryDialogFragment extends DialogFragment {
                 long dateTime = parseTextToLong(mDateTimeButton.getText().toString());
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 EditDateTimeDialogFragment editDateTimeDialogFragment = EditDateTimeDialogFragment.newInstance(dateTime);
-                editDateTimeDialogFragment.setTargetFragment(EditMemoryDialogFragment.this, Constants.REQUEST_TARGET_EMDF);
+                editDateTimeDialogFragment.setTargetFragment(EditMemoryDialogFragment.this, Constants.REQUEST_TARGET_EMDF_DATE_TIME);
                 editDateTimeDialogFragment.show(fm, TAG);
             }
         });
@@ -160,6 +162,11 @@ public class EditMemoryDialogFragment extends DialogFragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
 
+                String peopleText = "";
+                ArrayList<String> people = (ArrayList<String>) memory.getPeople().get(Constants.LIST);
+                for (int i = 0; i < people.size(); i ++) peopleText = peopleText + " " + people.get(i);
+                mPeopleButton.setText(peopleText);
+
                 mTitleEditText.setText(memory.getTitle());
                 mDateTimeButton.setText(Utility.DATE_TIME_FORMAT.format(new Date(memory.getTimeCreated())));
                 mLocationEditText.setText(memory.getLocation());
@@ -173,6 +180,30 @@ public class EditMemoryDialogFragment extends DialogFragment {
                 Log.e(TAG, databaseError.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode != Activity.RESULT_OK) return;
+
+        if (requestCode == Constants.REQUEST_TARGET_EMDF_DATE_TIME) {
+            Date dateTime = (Date) data.getSerializableExtra(Constants.EXTRA_DATE_TIME);
+            mDateTimeButton.setText(Utility.DATE_TIME_FORMAT.format(dateTime));
+        }
+
+        else if (requestCode == Constants.REQUEST_TARGET_EMDF_PEOPLE) {
+            ArrayList<String> original = (ArrayList<String>) mMemory.getPeople().get(Constants.LIST);
+            ArrayList<String> newInput = data.getStringArrayListExtra(Constants.EXTRA_ROOM_MEMBERS);
+            ArrayList<String> people = removeDuplicatePeople(original, newInput);
+
+            updateFirebaseDatabase_People(people);
+        }
+
+        else if (requestCode == Constants.REQUEST_PLACE_PICKER) {
+            Place place = PlacePicker.getPlace(getActivity(), data);
+            LatLngBounds latLngBounds = PlacePicker.getLatLngBounds(data);
+            updateFirebaseDatabse_Where(place, latLngBounds);
+        }
     }
 
     /**
@@ -190,20 +221,57 @@ public class EditMemoryDialogFragment extends DialogFragment {
         mMemoryDatabaseRef.updateChildren(updatedInfo);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (resultCode != Activity.RESULT_OK) return;
+    private void updateFirebaseDatabse_Where(Place place, LatLngBounds latLngBounds) {
+        String location = place.getName().toString();
+        double latitude = latLngBounds.getCenter().latitude;
+        double longitude = latLngBounds.getCenter().longitude;
 
-        if (requestCode == Constants.REQUEST_TARGET_EMDF) {
-            Date dateTime = (Date) data.getSerializableExtra(Constants.EXTRA_DATE_TIME);
-            mDateTimeButton.setText(Utility.DATE_TIME_FORMAT.format(dateTime));
+        HashMap<String, Object> updatedInfo = new HashMap<>();
+        updatedInfo.put(Constants.LOCATION, location);
+        updatedInfo.put(Constants.LATITUDE, latitude);
+        updatedInfo.put(Constants.LONGITUDE, longitude);
+        mMemoryDatabaseRef.updateChildren(updatedInfo);
+
+        mLocationEditText.setText(location);
+    }
+
+    private void updateFirebaseDatabase_People(ArrayList<String> people) {
+        HashMap<String, Object> updatedPeople = new HashMap<>();
+        updatedPeople.put(Constants.LIST, people);
+
+        int updatedNumberOfPeople = people.size();
+
+        HashMap<String, Object> updatedInfo = new HashMap<>();
+        updatedInfo.put(Constants.PEOPLE, updatedPeople);
+        updatedInfo.put(Constants.NUMBER_OF_PEOPLE, updatedNumberOfPeople);
+        mMemoryDatabaseRef.updateChildren(updatedInfo);
+
+        String peopleText = "";
+        for (int i = 0; i < people.size(); i ++) peopleText = peopleText + ", " + people.get(i);
+        mPeopleButton.setText(peopleText);
+    }
+
+    private ArrayList<String> removeDuplicatePeople(ArrayList<String> original, ArrayList<String> newInput) {
+        int originalSize = original.size();
+        int newInputSize = newInput.size();
+
+        String[] newInputList = new String[newInputSize];
+        for (int i = 0; i < newInputSize; i ++) newInputList[i] = newInput.get(i);
+
+        for (int i = 0; i < originalSize; i ++) {
+            String o = original.get(i);
+            for (int j = 0; j < newInputSize; j ++) {
+                String ni = newInput.get(j);
+                if (o.equals(ni)) newInputList[j] = null;
+            }
         }
 
-        else if (requestCode == Constants.REQUEST_PLACE_PICKER) {
-            Place place = PlacePicker.getPlace(getActivity(), data);
-            LatLngBounds latLngBounds = PlacePicker.getLatLngBounds(data);
-            updateFirebaseDatabse_Where(place, latLngBounds);
+        for (int i = 0; i < newInputSize; i ++) {
+            String newInputCandidate = newInputList[i];
+            if (newInputCandidate != null) original.add(newInputCandidate);
         }
+
+        return original;
     }
 
     /**
@@ -217,20 +285,6 @@ public class EditMemoryDialogFragment extends DialogFragment {
             e.printStackTrace();
         }
         return dateTime;
-    }
-
-    private void updateFirebaseDatabse_Where(Place place, LatLngBounds latLngBounds) {
-        String location = place.getName().toString();
-        double latitude = latLngBounds.getCenter().latitude;
-        double longitude = latLngBounds.getCenter().longitude;
-
-        HashMap<String, Object> updatedInfo = new HashMap<>();
-        updatedInfo.put(Constants.LOCATION, location);
-        updatedInfo.put(Constants.LATITUDE, latitude);
-        updatedInfo.put(Constants.LONGITUDE, longitude);
-        mMemoryDatabaseRef.updateChildren(updatedInfo);
-
-        mLocationEditText.setText(location);
     }
 
     private void launchPlacePicker(double latitude, double longitude) {

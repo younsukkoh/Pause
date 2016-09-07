@@ -17,11 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="What Title"/>
-        <TextView
-            android:id="@+id/mvh_tv_who_people"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Who People"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/mvh_tv_who_people"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Who People"/>
+        </HorizontalScrollView>
         <TextView
             android:id="@+id/mvh_tv_when_time"
             android:layout_width="match_parent"
