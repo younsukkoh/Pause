@@ -138,7 +138,10 @@ public class MemoryViewHolder extends RecyclerView.ViewHolder implements View.On
 
     @Override
     public boolean onLongClick(View view) {
-        return false;
+        if (view.isActivated()) view.setActivated(false);
+        else view.setActivated(true);
+
+        return true;
     }
 
 }
